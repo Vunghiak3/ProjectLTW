@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "123abc456",
+    "name": "Van A",
+    "email": "admin123@gmail.com",
+    "numberphone": "09928389292",
+    "birthday": "1/2/2000",
+    "role": "Admin"
+  },
+  {
+    "id": 2,
+    "username": "lourdes",
+    "password": "123abc456",
+    "name": "Van B",
+    "email": "lourdes123@gmail.com",
+    "numberphone": "0993483383",
+    "birthday": "5/3/2002",
+    "role": "User"
+  },
+  {
+    "id": 3,
+    "username": "katemorrison",
+    "password": "123abc456",
+    "name": "Van C",
+    "email": "katemorrison123@gmail.com",
+    "numberphone": "0972643373",
+    "birthday": "7/10/2003",
+    "role": "Guide"
+  },
+  {
+    "id": 4,
+    "username": "miyah",
+    "password": "123abc456",
+    "name": "Van D",
+    "email": "miyah123@gmail.com",
+    "numberphone": "0938734733",
+    "birthday": "1/12/1999",
+    "role": "Lead-Guide"
+  }
+]
