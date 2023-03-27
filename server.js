@@ -1,7 +1,11 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 // const sql = require('mssql')
+dotenv.config({
+  path: "./config.env",
+});
 
-app.listen(8080, () => {
-  console.log(`listening on 8080`);
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });
