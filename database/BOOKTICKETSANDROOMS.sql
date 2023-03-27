@@ -34,7 +34,8 @@ CREATE TABLE HOTELS(
 	PhoneNumber NUMERIC NULL, -- Số điện thoại liên hệ
 	Email VARCHAR(100) NULL, -- Email liên hệ
 	Address NVARCHAR(200) NOT NULL, -- Địa chỉ khách sạn
-	City NVARCHAR(200) NOT NULL
+	City NVARCHAR(200) NOT NULL,
+	EmtyRooms INT NOT NULL
 )
 
 GO
@@ -45,6 +46,7 @@ CREATE TABLE ROOMS(
 	Price FLOAT NOT NULL, -- Giá phòng
 	HotelId INT CONSTRAINT FK_ROOMS_HOTELS FOREIGN KEY (HotelId) REFERENCES HOTELS(Id) NOT NULL,
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	Status CHAR(5) CHECK(Status = 'TRUE' OR Status = 'FALSE') DEFAULT 'TRUE' NOT NULL,
 )
 
 GO
@@ -121,20 +123,31 @@ BEGIN
 	SET EmptySeat = EmptySeat - 1
 	FROM FLIGHTS
 	JOIN inserted ON FLIGHTS.Id = inserted.FlightId
-END
+END;
 
 --AUTO UPDATE SEATS STATUS 
-CREATE TRIGGER statusUpdate ON BOOKINGFLIGHTS AFTER INSERT AS
+CREATE TRIGGER seatStatus ON BOOKINGFLIGHTS AFTER INSERT AS
 BEGIN
 	UPDATE SEATS
 	SET Status = 'FALSE'
 	FROM SEATS
 	JOIN inserted ON SEATS.FlightId = inserted.FlightId
-END
-
-
-INSERT INTO ROLES(NAME) VALUES ('User'), ('Guide'), ('Lead-Guide'), ('Admin')
-
+END;
+--AUTO UPDATE ROOM 
+CREATE TRIGGER roomUpdate ON BOOKINGROOMS AFTER INSERT AS 
+BEGIN
+	UPDATE HOTELS
+	SET EmtyRooms = EmtyRooms -1
+	From HOTELS
+	JOIN inserted ON HOTELS.Id = inserted.HotelId
+END;
+CREATE TRIGGER roomStatus ON BOOKINGROOMS AFTER INSERT AS 
+BEGIN
+	UPDATE ROOMS
+	SET Status = 'FALSE'
+	From ROOMS
+	JOIN inserted ON ROOMS.Id = inserted.RoomId
+END;
+/*INSERT INTO ROLES(NAME) VALUES ('User'), ('Guide'), ('Lead-Guide'), ('Admin')
 USE MASTER
-
-DROP DATABASE BookingTicketsAndRooms
+DROP DATABASE Booking*/
