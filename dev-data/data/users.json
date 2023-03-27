@@ -5,7 +5,7 @@
     "password": "123abc456",
     "name": "Van A",
     "email": "admin123@gmail.com",
-    "numberphone": "09928389292",
+    "phonenumber": "09928389292",
     "birthday": "1/2/2000",
     "role": "Admin"
   },
@@ -15,7 +15,7 @@
     "password": "123abc456",
     "name": "Van B",
     "email": "lourdes123@gmail.com",
-    "numberphone": "0993483383",
+    "phonenumber": "0993483383",
     "birthday": "5/3/2002",
     "role": "User"
   },
@@ -25,7 +25,7 @@
     "password": "123abc456",
     "name": "Van C",
     "email": "katemorrison123@gmail.com",
-    "numberphone": "0972643373",
+    "phonenumber": "0972643373",
     "birthday": "7/10/2003",
     "role": "Guide"
   },
@@ -35,7 +35,7 @@
     "password": "123abc456",
     "name": "Van D",
     "email": "miyah123@gmail.com",
-    "numberphone": "0938734733",
+    "phonenumber": "0938734733",
     "birthday": "1/12/1999",
     "role": "Lead-Guide"
   }
