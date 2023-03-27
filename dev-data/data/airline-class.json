@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Name": "Phổ thông",
+    "Price": 450000
+  },
+  {
+    "Id": 2,
+    "Name": "Phổ thông đặc biệt",
+    "Price": 600000
+  },
+  {
+    "Id": 3,
+    "Name": "Thương gia",
+    "Price": 2000000
+  },
+  {
+    "Id": 4,
+    "Name": "Hạng nhất",
+    "Price": 15000000
+  }
+]

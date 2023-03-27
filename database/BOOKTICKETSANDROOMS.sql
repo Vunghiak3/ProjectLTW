@@ -62,7 +62,7 @@ GO
 
 CREATE TABLE AIRLINECLASS(
 	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Name NVARCHAR(30) CHECK(NAME = 'Phổ thông' OR NAME = 'Phổ thông đặc biệt' OR NAME = 'Thượng gia'  OR NAME = 'Hạng nhất') NOT NULL, -- Hạng ghế
+	Name NVARCHAR(30) CHECK(NAME = 'Phổ thông' OR NAME = 'Phổ thông đặc biệt' OR NAME = 'Thương gia'  OR NAME = 'Hạng nhất') NOT NULL, -- Hạng ghế
 	Price FLOAT NOT NULL, -- Giá ghế
 )
 
@@ -73,9 +73,6 @@ CREATE TABLE FLIGHTS(
 	FromLocation NVARCHAR(100) NOT NULL, -- Nơi đi
 	ToLocation NVARCHAR(100) NOT NULL, -- Nơi đến
 	DateOfDepartment DATETIME NOT NULL, -- Ngày đi
-	Roundtrip CHAR(5) CHECK(Roundtrip = 'TRUE' OR Roundtrip = 'FALSE'), -- Khứ hồi
-	DateRoundtrip DATETIME NULL, -- Ngày khứ hồi
-	NumberOfChairs INT NOT NULL, -- Số lượng ghế
 	EmptySeat INT NOT NULL, -- Số lượng ghế trống 
 	AirportId INT CONSTRAINT FK_FLIGHTS_AIRPORTS FOREIGN KEY (AirportId) REFERENCES AIRPORTS(Id),
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -85,7 +82,7 @@ GO
 
 CREATE TABLE SEATS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	Type NVARCHAR(30) CONSTRAINT FK_SEATS_TYPEOFCHAIRS FOREIGN KEY (Type) REFERENCES AIRLINECLASS(Name) NOT NULL, -- Hạng ghế
+	Type INT FOREIGN KEY (Type) REFERENCES AIRLINECLASS(Id) NOT NULL, -- Hạng ghế
 	Status CHAR(5) CHECK(Status = 'TRUE' OR Status = 'FALSE') DEFAULT 'TRUE' NOT NULL, -- Trạng thái ghế
 	FlightId INT CONSTRAINT FK_SEATS_FLIGHTS FOREIGN KEY (FlightId) REFERENCES FLIGHTS(Id) NOT NULL,
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,

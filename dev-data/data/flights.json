@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "FromLocation": "Ho Chi Minh City",
+    "ToLocation": "Ha Noi",
+    "DateOfDepartment": "28/3/2023",
+    "EmptySeat": 203,
+    "AirportId": 1
+  },
+  {
+    "Id": 1,
+    "FromLocation": "Da Nang",
+    "ToLocation": "Nha Trang",
+    "DateOfDepartment": "28/3/2023",
+    "EmptySeat": 203,
+    "AirportId": 1
+  },
+  {
+    "Id": 1,
+    "FromLocation": "Tuy Hoa",
+    "ToLocation": "Ha Noi",
+    "DateOfDepartment": "28/3/2023",
+    "EmptySeat": 203,
+    "AirportId": 1
+  }
+]

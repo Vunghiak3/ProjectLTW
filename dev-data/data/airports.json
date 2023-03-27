@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "Name": "VietJet",
+    "Address": "1639 Spruce Drive",
+    "PhoneNumber": "7249060137"
+  },
+  {
+    "Id": 2,
+    "Name": "VietNam AirLine",
+    "Address": "3157 Yorkshire Circle",
+    "PhoneNumber": "3156011164"
+  },
+  {
+    "Id": 3,
+    "Name": "Bamboo Air",
+    "Address": "2396 Jarvisville Road",
+    "PhoneNumber": "5169986024"
+  }
+]
