@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Name": "Hotel A",
+    "PhoneNumber": "9378258538",
+    "Email": "hotelA@gmail.com",
+    "Address": "3924 Old House Drive",
+    "City": "Quincy"
+  },
+  {
+    "Id": 2,
+    "Name": "Hotel B",
+    "PhoneNumber": "9403822207",
+    "Email": "hotelB@gmail.com",
+    "Address": "3259 Alexander Drive",
+    "City": "Quincy"
+  },
+  {
+    "Id": 1,
+    "Name": "Hotel C",
+    "PhoneNumber": "3306921481",
+    "Email": "hotelC@gmail.com",
+    "Address": "4537 Wildwood Street",
+    "City": "Salem"
+  }
+]
