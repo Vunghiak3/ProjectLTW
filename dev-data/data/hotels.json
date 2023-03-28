@@ -6,7 +6,33 @@
     "Email": "hotelA@gmail.com",
     "Address": "3924 Old House Drive",
     "City": "Quincy",
-    "EmtyRooms": "3"
+    "EmptyRooms": "3",
+    "Rooms": [
+      {
+        "Id": 1,
+        "Name": "P1",
+        "Price": 500,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "Name": "P2",
+        "Price": 500,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "Name": "P3",
+        "Price": 500,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "Name": "P4",
+        "Price": 500,
+        "Status": "TRUE"
+      }
+    ]
   },
   {
     "Id": 2,
@@ -15,7 +41,33 @@
     "Email": "hotelB@gmail.com",
     "Address": "3259 Alexander Drive",
     "City": "Quincy",
-    "EmtyRooms": "3"
+    "EmptyRooms": "3",
+    "Rooms": [
+      {
+        "Id": 1,
+        "Name": "P1",
+        "Price": 600,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "Name": "P2",
+        "Price": 600,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "Name": "P3",
+        "Price": 600,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "Name": "P4",
+        "Price": 600,
+        "Status": "TRUE"
+      }
+    ]
   },
   {
     "Id": 1,
@@ -24,6 +76,32 @@
     "Email": "hotelC@gmail.com",
     "Address": "4537 Wildwood Street",
     "City": "Salem",
-    "EmtyRooms": "3"
+    "EmptyRooms": "3",
+    "Rooms": [
+      {
+        "Id": 1,
+        "Name": "P1",
+        "Price": 350,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "Name": "P2",
+        "Price": 350,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "Name": "P3",
+        "Price": 350,
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "Name": "P4",
+        "Price": 350,
+        "Status": "TRUE"
+      }
+    ]
   }
 ]

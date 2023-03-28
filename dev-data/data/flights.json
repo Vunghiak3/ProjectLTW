@@ -1,11 +1,93 @@
 [
   {
     "Id": 1,
-    "FromLocation": "Ho Chi Minh City",
+    "FromLocation": "Ho Chi Minh",
     "ToLocation": "Ha Noi",
     "DateOfDepartment": "28/3/2023",
-    "EmptySeat": 203,
-    "AirportId": 1
+    "EmptySeat": 20,
+    "AirportId": 1,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "FromLocation": "Buon Ma Thuot",
+    "ToLocation": "Ho Chi Minh",
+    "DateOfDepartment": "1/4/2023",
+    "EmptySeat": 20,
+    "AirportId": 1,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "FromLocation": "Ha Noi",
+    "ToLocation": "Buon Ma Thuot",
+    "DateOfDepartment": "15/4/2023",
+    "EmptySeat": 20,
+    "AirportId": 1,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
   },
   {
     "Id": 1,
@@ -13,7 +95,59 @@
     "ToLocation": "Nha Trang",
     "DateOfDepartment": "28/3/2023",
     "EmptySeat": 203,
-    "AirportId": 1
+    "AirportId": 2,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
+  },
+  {
+    "Id": 1,
+    "FromLocation": "Da Nang",
+    "ToLocation": "Nha Trang",
+    "DateOfDepartment": "28/3/2023",
+    "EmptySeat": 203,
+    "AirportId": 2,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
   },
   {
     "Id": 1,
@@ -21,6 +155,28 @@
     "ToLocation": "Ha Noi",
     "DateOfDepartment": "28/3/2023",
     "EmptySeat": 203,
-    "AirportId": 1
+    "AirportId": 3,
+    "Seats": [
+      {
+        "Id": 1,
+        "AirlineClass": "Phổ thông",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 2,
+        "AirlineClass": "Phổ thông đặc biệt",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 3,
+        "AirlineClass": "Thượng gia",
+        "Status": "TRUE"
+      },
+      {
+        "Id": 4,
+        "AirlineClass": "Hạng nhất",
+        "Status": "TRUE"
+      }
+    ]
   }
 ]
