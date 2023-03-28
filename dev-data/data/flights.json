@@ -9,22 +9,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
@@ -39,22 +39,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
@@ -69,22 +69,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
@@ -99,22 +99,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
@@ -129,22 +129,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
@@ -159,22 +159,22 @@
     "Seats": [
       {
         "Id": 1,
-        "AirlineClass": "Phổ thông",
+        "AirlineClassId": 1,
         "Status": "TRUE"
       },
       {
         "Id": 2,
-        "AirlineClass": "Phổ thông đặc biệt",
+        "AirlineClassId": 2,
         "Status": "TRUE"
       },
       {
         "Id": 3,
-        "AirlineClass": "Thượng gia",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       },
       {
         "Id": 4,
-        "AirlineClass": "Hạng nhất",
+        "AirlineClassId": 3,
         "Status": "TRUE"
       }
     ]
