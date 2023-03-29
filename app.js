@@ -13,6 +13,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+const flightRouter = require("./routers/Flight");
+app.use("/api/v1/flight", flightRouter);
+
 const fs = require("fs");
 const data = fs.readFileSync(`${__dirname}/dev-data/data/users.json`, "utf-8");
 const dataArr = JSON.parse(data);

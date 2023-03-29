@@ -154,3 +154,7 @@ END;
 /*INSERT INTO ROLES(NAME) VALUES ('User'), ('Guide'), ('Lead-Guide'), ('Admin')
 USE MASTER
 DROP DATABASE Booking*/
+
+drop database BookingTicketsAndRooms
+
+use master
