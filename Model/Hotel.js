@@ -44,8 +44,8 @@ const HotelSchema = new ModelSchema(
       require: true,
     }),
   },
-  "HOTELS",
-  "createAt"
+  "HOTELS"
+  // "CreateAt"
 );
 
 module.exports = HotelSchema;

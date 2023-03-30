@@ -4,7 +4,7 @@ const RoomDAO = require("./../DAO/RoomDAO");
 
 exports.getAllHotelsHandler = async (req, res) => {
   try {
-    const { page, pageSize, totalPage, totalItem, tours } =
+    const { page, pageSize, totalPage, totalItem, hotels } =
       await HotelDAO.getAllHotel(req.query);
     return res.status(200).json({
       code: 200,
@@ -14,7 +14,7 @@ exports.getAllHotelsHandler = async (req, res) => {
       totalPage,
       totalItem,
       data: {
-        tours,
+        hotels,
       },
     });
   } catch (e) {

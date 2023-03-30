@@ -6,6 +6,7 @@ const RoomsDAO = require("./RoomDAO");
 
 async function setHotelInfor(hotel) {
   const rooms = await RoomsDAO.getRoomByHotelId(hotel.Id);
+  console.log("🚀 ~ file: HotelDAO.js:9 ~ rooms:", rooms);
   hotel.Rooms = rooms;
   return hotel;
 }
@@ -50,7 +51,6 @@ exports.getAllHotel = async (filter) => {
     const hotel = hotels[i];
     await setHotelInfor(hotel);
   }
-
   return {
     page,
     pageSize,

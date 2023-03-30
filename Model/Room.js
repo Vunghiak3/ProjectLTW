@@ -23,14 +23,14 @@ const RoomSchema = new ModelSchema(
       sqlType: sql.Int,
       require: true,
     }),
-    createat: new ModelSchemaValidator({
-      name: "CreateAt",
-      sqlType: sql.DateTime,
-      require: true,
-    }),
     status: new ModelSchemaValidator({
       name: "Status",
       sqlType: sql.Char,
+      require: true,
+    }),
+    createat: new ModelSchemaValidator({
+      name: "CreateAt",
+      sqlType: sql.DateTime,
       require: true,
     }),
   },
