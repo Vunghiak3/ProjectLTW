@@ -1,4 +1,4 @@
-﻿CREATE DATABASE BookingTicketsAndRooms
+CREATE DATABASE BookingTicketsAndRooms
 
 GO
 
@@ -30,10 +30,10 @@ GO
 
 CREATE TABLE HOTELS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	Name NVARCHAR(100) NOT NULL, -- Tên khách sạn
-	PhoneNumber NUMERIC NULL, -- Số điện thoại liên hệ
-	Email VARCHAR(100) NULL, -- Email liên hệ
-	Address NVARCHAR(200) NOT NULL, -- Địa chỉ khách sạn
+	Name NVARCHAR(100) NOT NULL, -- T�n kh�ch s?n
+	PhoneNumber NUMERIC NULL, -- S? ?i?n tho?i li�n h?
+	Email VARCHAR(100) NULL, -- Email li�n h?
+	Address NVARCHAR(200) NOT NULL, -- ??a ch? kh�ch s?n
 	City NVARCHAR(200) NOT NULL,
 	EmtyRooms INT NOT NULL
 )
@@ -43,8 +43,8 @@ GO
 CREATE TABLE ROOMS(
 	Id INT IDENTITY(1,1) NOT NULL,
 	PRIMARY KEY(Id, HotelId),
-	Name NVARCHAR(100) NOT NULL, -- Tên phòng
-	Price FLOAT NOT NULL, -- Giá phòng
+	Name NVARCHAR(100) NOT NULL, -- T�n ph�ng
+	Price FLOAT NOT NULL, -- Gi� ph�ng
 	HotelId INT CONSTRAINT FK_ROOMS_HOTELS FOREIGN KEY (HotelId) REFERENCES HOTELS(Id) NOT NULL,
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	Status CHAR(5) CHECK(Status = 'TRUE' OR Status = 'FALSE') DEFAULT 'TRUE' NOT NULL,
@@ -54,17 +54,17 @@ GO
 
 CREATE TABLE AIRPORTS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	Name NVARCHAR(100) NOT NULL, -- Tên sân bay
-	Address NVARCHAR(100) NOT NULL, -- Địa chỉ sân bay
-	PhoneNumber NUMERIC NULL, -- Số điện thoại liên hệ
+	Name NVARCHAR(100) NOT NULL, -- T�n s�n bay
+	Address NVARCHAR(100) NOT NULL, -- ??a ch? s�n bay
+	PhoneNumber NUMERIC NULL, -- S? ?i?n tho?i li�n h?
 )
 
 GO
-Insert into Airports (name, address,phonenumber) values('VietJet', 'VN', '0000')
+
 CREATE TABLE AIRLINECLASS(
 	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Name NVARCHAR(30) CHECK(NAME = 'Phổ thông' OR NAME = 'Phổ thông đặc biệt' OR NAME = 'Thượng gia'  OR NAME = 'Hạng nhất') NOT NULL, -- Hạng ghế
-	Price FLOAT NOT NULL, -- Giá ghế
+	Name NVARCHAR(30) CHECK(NAME = 'Ph? th�ng' OR NAME = 'Ph? th�ng ??c bi?t' OR NAME = 'Th??ng gia'  OR NAME = 'H?ng nh?t') NOT NULL, -- H?ng gh?
+	Price FLOAT NOT NULL, -- Gi� gh?
 )
 
 GO
@@ -72,22 +72,20 @@ GO
 CREATE TABLE FLIGHTS(
 	Id INT IDENTITY(1,1) NOT NULL,
 	PRIMARY KEY(Id, AirportId),
-	Name VARCHAR(50),
-	FromLocation NVARCHAR(100) NOT NULL, -- Nơi đi
-	ToLocation NVARCHAR(100) NOT NULL, -- Nơi đến
-	DateOfDepartment DATETIME NOT NULL, -- Ngày đi
-	EmptySeat INT NOT NULL, -- Số lượng ghế trống 
+	FromLocation NVARCHAR(100) NOT NULL, -- N?i ?i
+	ToLocation NVARCHAR(100) NOT NULL, -- N?i ??n
+	DateOfDepartment DATETIME NOT NULL, -- Ng�y ?i
+	EmptySeat INT NOT NULL, -- S? l??ng gh? tr?ng 
 	AirportId INT CONSTRAINT FK_FLIGHTS_AIRPORTS FOREIGN KEY (AirportId) REFERENCES AIRPORTS(Id),
-	CreateAt DATETIME  NOT NULL/*DEFAULT CURRENT_TIMESTAMP*/,
+	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 )
-Insert into FLIGHTS(FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('HCM','HN',30/4/2023,201,1,29/3/2023)
-GO
-ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
 
-DROP TABLE SEATS(
+GO
+
+CREATE TABLE SEATS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	AirlineClassId INT CONSTRAINT FK_SEATS_AIRLINECLASS FOREIGN KEY (AirlineClassId) REFERENCES AIRLINECLASS(Id) NOT NULL, -- Hạng ghế
-	Status CHAR(5) CHECK(Status = 'TRUE' OR Status = 'FALSE') DEFAULT 'TRUE' NOT NULL, -- Trạng thái ghế
+	AirlineClassId INT CONSTRAINT FK_SEATS_AIRLINECLASS FOREIGN KEY (AirlineClassId) REFERENCES AIRLINECLASS(Id) NOT NULL, -- H?ng gh?
+	Status CHAR(5) CHECK(Status = 'TRUE' OR Status = 'FALSE') DEFAULT 'TRUE' NOT NULL, -- Tr?ng th�i gh?
 	FlightId INT NOT NULL,
 	AirportId INT NOT NULL,
 	CONSTRAINT FK_SEATS_FLIGHTS FOREIGN KEY (FlightId, AirportId) REFERENCES FLIGHTS(Id, AirportId),
@@ -108,7 +106,7 @@ CREATE TABLE BOOKINGROOMS(
 
 GO
 
-DROP TABLE BOOKINGFLIGHTS(
+CREATE TABLE BOOKINGFLIGHTS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	UserId INT CONSTRAINT FK_BOOKINGFLIGHTS_USERS FOREIGN KEY (USERID) REFERENCES USERS(ID) NOT NULL,
 	AirportId INT NOT NULL,

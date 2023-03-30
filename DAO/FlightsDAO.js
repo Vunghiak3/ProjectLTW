@@ -3,21 +3,12 @@ const dbUtils = require("../utils/dbUtils");
 const StaticData = require("../utils/StaticData");
 const FlightSchema = require("../model/Flights");
 
-exports.getFightsByDate = async (
-  dateOfDepartment,
-  fromLocation,
-  toLocation
-) => {
+exports.getFlightByDateAndLocation = async function (fromLocation, toLocation) {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db");
   }
-  let request = dbConfig.db.pool.request();
-  let result = await request
-    .input(
-      FlightSchema.schema.dateOfDepartment.name,
-      FlightSchema.schema.dateOfDepartment.sqlType,
-      dateOfDepartment
-    )
+  let result = await dbConfig.db.pool
+    .request()
     .input(
       FlightSchema.schema.fromLocation.name,
       FlightSchema.schema.fromLocation.sqlType,
@@ -29,7 +20,11 @@ exports.getFightsByDate = async (
       toLocation
     )
     .query(
-      `select * from ${FlightSchema.schemaName} where ${FlightSchema.schema.dateOfDepartment} = @${FlightSchema.schema.fromLocation.name} AND ${FlightSchema.schema.toLocation} = @${FlightSchema.schema.toLocation}`
+      `SELECT * from ${FlightSchema.schemaName} where ${FlightSchema.schema.fromLocation.name} = @${FlightSchema.schema.fromLocation.name} AND ${FlightSchema.schema.toLocation.name} = @${FlightSchema.schema.toLocation.name}`
     );
-  return result.recordsets;
+
+  if (result.recordsets[0].length > 0) {
+    return result.recordsets[0][0];
+  }
+  return null;
 };
