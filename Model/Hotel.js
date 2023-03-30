@@ -38,14 +38,14 @@ const HotelSchema = new ModelSchema(
       sqlType: sql.Int,
       require: true,
     }),
-    createdAt: new ModelSchemaValidator({
-      name: "CreatedAt",
+    createAt: new ModelSchemaValidator({
+      name: "createAt",
       sqlType: sql.DateTime,
       require: true,
     }),
   },
-  "HOTELS"
-  // "CreateAt"
+  "HOTELS",
+  "createAt"
 );
 
 module.exports = HotelSchema;

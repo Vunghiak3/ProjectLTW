@@ -32,8 +32,9 @@ exports.createHotelHandler = async (req, res) => {
   const newHotel = req.body;
   try {
     await HotelDAO.createNewHotel(newHotel);
-    const hotel = await HotelDAO.getHotelByname(newHotel.Name);
-    // hotel = await HotelDAO.getHotelById(hotel.id);
+    // const hotel = await HotelDAO.getHotelByname(newHotel.name);
+    const hotel = await HotelDAO.getHotelByCreateAt(newHotel.createAt)
+
     let result = {
       code: 200,
       msg: "Create new hotel successfully!",

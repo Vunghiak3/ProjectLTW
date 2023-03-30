@@ -64,13 +64,16 @@ exports.getRoomById = async (id) => {
 };
 
 exports.getRoomByHotelId = async (id) => {
+  console.log("🚀 ~ file: RoomDAO.js:67 ~ exports.getRoomByHotelId= ~ id:", id)
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db1");
   }
   let request = dbConfig.db.pool.request();
-  let result = await request.query(
-    `SELECT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.hotelid.name}, ${RoomSchema.schema.status.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.createat.name} FROM ${RoomSchema.schemaName}, ${HotelSchema.schemaName} WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = ${HotelSchema.schemaName}.${HotelSchema.schema.id.name}`
-  );
+  let result = await request
+    .input(HotelSchema.schema.id.name, HotelSchema.schema.id.sqlType, id)
+    .query(
+      `SELECT DISTINCT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.hotelid.name}, ${RoomSchema.schema.status.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.createat.name} FROM ${RoomSchema.schemaName}, ${HotelSchema.schemaName} WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = @${HotelSchema.schema.id.name}`
+    );
   return result.recordsets[0];
 };
 

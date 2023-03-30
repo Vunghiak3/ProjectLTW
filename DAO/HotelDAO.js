@@ -6,7 +6,6 @@ const RoomsDAO = require("./RoomDAO");
 
 async function setHotelInfor(hotel) {
   const rooms = await RoomsDAO.getRoomByHotelId(hotel.Id);
-  console.log("🚀 ~ file: HotelDAO.js:9 ~ rooms:", rooms);
   hotel.Rooms = rooms;
   return hotel;
 }
@@ -83,13 +82,13 @@ exports.createNewHotel = async (hotel) => {
   return result.recordsets;
 };
 
-exports.getHotelByname = async (name) => {
+exports.getHotelByname = async (Name) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
   const request = dbConfig.db.pool.request();
   let result = await request
-    .input(HotelSchema.schema.name.name, HotelSchema.schema.name.sqlType, name)
+    .input(HotelSchema.schema.name.name, HotelSchema.schema.name.sqlType, Name)
     .query(
       `SELECT * FROM ${HotelSchema.schemaName} WHERE ${HotelSchema.schema.name.name} = @${HotelSchema.schema.name.name}`
     );
@@ -146,4 +145,21 @@ exports.updateHotelById = async (id, updateInfo) => {
     ` WHERE ${HotelSchema.schema.id.name} = @${HotelSchema.schema.id.name}`;
   let result = await request.query(query);
   return result.recordsets;
+};
+
+exports.getHotelByCreateAt = async (date) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  const request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      HotelSchema.schema.createAt.name,
+      HotelSchema.schema.createAt.sqlType,
+      date
+    )
+    .query(
+      `select * from ${HotelSchema.schemaName} where ${HotelSchema.schema.createAt.name} = @${HotelSchema.schema.createAt.name}`
+    );
+  return result.recordsets[0][0];
 };
