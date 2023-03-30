@@ -71,22 +71,14 @@ exports.createNewHotel = async (hotel) => {
   hotel.createAt = now.toISOString();
   hotel.emtyrooms = 0;
   let insertData = HotelSchema.validateData(hotel);
-  console.log(
-    "🚀 ~ file: HotelDAO.js:73 ~ exports.createNewHotel= ~ insertData:",
-    insertData
-  );
   let query = `INSERT INTO ${HotelSchema.schemaName}`;
-  const { request, insertFieldNameStr, insertValueStr } =
+  const { request, insertFieldNamesStr, insertValuesStr } =
     dbUtils.getInsertQuery(
       HotelSchema.schema,
       dbConfig.db.pool.request(),
       insertData
     );
-  query += " (" + insertFieldNameStr + ") VALUES (" + insertValueStr + ")";
-  console.log(
-    "🚀 ~ file: HotelDAO.js:81 ~ exports.createNewHotel= ~ query:",
-    query
-  );
+  query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
   return result.recordsets;
 };

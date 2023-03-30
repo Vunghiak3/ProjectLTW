@@ -2,8 +2,6 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
   let filterStr;
   let paginationStr;
 
-  // console.log(filter);
-
   const skip = (page - 1) * pageSize;
   paginationStr = "ORDER BY";
   let defaultSortStr = `${defaultSort} asc`;
@@ -74,7 +72,6 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
   if (sort) {
     let sortCriterias = sort.split(",");
     if (sortCriterias.length > 0) {
-      // console.log(sortCriterias);
       sortCriterias.forEach((criteria) => {
         let sortDirection = "asc";
         let sortProp = criteria;
@@ -96,7 +93,6 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
     sortStr = defaultSortStr;
   }
 
-  //offset 0 ROWS FETCH NEXT 10 ROWS ONLY;
   paginationStr +=
     " " +
     sortStr +
@@ -105,9 +101,6 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
     " ROWS FETCH NEXT " +
     pageSize +
     " ROWS ONLY";
-
-  // console.log('sortStr', sortStr);
-  // console.log('paginationStr', paginationStr);
 
   return {
     filterStr,
@@ -142,7 +135,6 @@ exports.getInsertQuery = (schema, request, insert) => {
     insertFieldNamesStr = insertFieldNamesStr.slice(0, -1); //delete last ','
     insertValuesStr = insertValuesStr.slice(0, -1); //delete last ','
   }
-
   return {
     request,
     insertFieldNamesStr,
