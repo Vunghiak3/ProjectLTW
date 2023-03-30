@@ -64,7 +64,6 @@ exports.getRoomById = async (id) => {
 };
 
 exports.getRoomByHotelId = async (id) => {
-  console.log("🚀 ~ file: RoomDAO.js:67 ~ exports.getRoomByHotelId= ~ id:", id)
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db1");
   }
