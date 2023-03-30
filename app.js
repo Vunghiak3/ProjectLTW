@@ -12,6 +12,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+const flightRouter = require("./routers/Flight");
+app.use("/api/v1/flight", flightRouter);
+
 const hotelRouter = require("./routers/hotel");
 const roomRouter = require("./routers/room");
 
