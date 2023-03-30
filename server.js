@@ -1,10 +1,9 @@
-const app = require("./app");
 const dotenv = require("dotenv");
-const sql = require("mssql");
-
 dotenv.config({
   path: "./config.env",
 });
+const app = require("./app");
+const sql = require("mssql");
 const dbConfig = require("./database/dbconfig");
 
 const appPool = new sql.ConnectionPool(dbConfig.sqlConfig);

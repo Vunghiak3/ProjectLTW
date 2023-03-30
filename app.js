@@ -1,6 +1,5 @@
 const express = require("express");
 const morgan = require("morgan");
-
 const app = express();
 
 app.use(morgan("dev"));
@@ -13,19 +12,10 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-const fs = require("fs");
-const data = fs.readFileSync(`${__dirname}/dev-data/data/users.json`, "utf-8");
-const dataArr = JSON.parse(data);
-app.post("/", (req, res) => {
-  let result = {
-    code: 200,
-    msg: "OK",
-    data: {
-      tours: dataArr,
-    },
-  };
+const hotelRouter = require("./routers/hotel");
+const roomRouter = require("./routers/room");
 
-  res.status(200).json(result);
-});
+app.use("/api/v1/hotels", hotelRouter);
+app.use("/api/v1/rooms", roomRouter);
 
 module.exports = app;
