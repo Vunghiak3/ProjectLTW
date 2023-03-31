@@ -10,6 +10,7 @@ router
 
 router
   .route("/:id")
+  .get(flightController.getFlightById)
   .patch(flightController.updateFlight)
   .delete(flightController.deleteFlight);
 router.route("/find").get(flightController.getFlightByLocation);

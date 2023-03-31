@@ -4,7 +4,38 @@ const StaticData = require("../utils/StaticData");
 const FlightSchema = require("../model/Flights");
 
 exports.getAllFlights = async () => {};
-exports.getFlightsByID = async () => {};
+
+exports.getFlightsByID = async function (id) {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(FlightSchema.schema.id.name, FlightSchema.schema.id.sqlType, id)
+    .query(
+      `SELECT * FROM ${FlightSchema.schemaName} WHERE ${FlightSchema.schema.id.name} = @${FlightSchema.schema.id.name}`
+    );
+  let flight = result.recordsets[0][0];
+  return flight;
+};
+
+exports.getFlightsByName = async function (name) {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(
+      FlightSchema.schema.name.name,
+      FlightSchema.schema.name.sqlType,
+      name
+    )
+    .query(
+      `SELECT * FROM ${FlightSchema.schemaName} WHERE ${FlightSchema.schema.name.name} = @${FlightSchema.schema.name.name}`
+    );
+  let flight = result.recordsets[0][0];
+  return flight;
+};
 
 exports.getFlightByDateAndLocation = async function (
   dateOfDepartment,
@@ -43,30 +74,25 @@ exports.getFlightByDateAndLocation = async function (
 
 exports.createFlights = async (flight) => {
   if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db");
+    throw new Error("Not connected to db!");
   }
   if (!flight) {
-    throw new Error("Invalid input param");
+    throw new Error("Invalid input param!");
   }
   let now = new Date();
-  flight.createdAt = now.toISOString(); //create at
+  flight.createAt = now.toISOString();
   let insertData = FlightSchema.validateData(flight);
-  let query = `insert into ${FlightSchema.schemaName}`;
+  let query = `INSERT INTO ${FlightSchema.schemaName}`;
   const { request, insertFieldNamesStr, insertValuesStr } =
     dbUtils.getInsertQuery(
       FlightSchema.schema,
       dbConfig.db.pool.request(),
       insertData
     );
-
-  if (insertFieldNamesStr && insertValuesStr) {
-    query += ` (${insertFieldNamesStr}) values (${insertValuesStr})`;
-    let result = await request.query(query);
-    return result.recordsets;
-  } else {
-    throw new Error(`Invalid insert query`);
-  }
-}; //Invalid insert query
+  query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
+  let result = await request.query(query);
+  return result.recordsets;
+}; //done
 
 //try alt for create
 exports.deleteFlightById = async (id) => {
@@ -86,22 +112,19 @@ exports.deleteFlightById = async (id) => {
 
 exports.updateFlightById = async (id, updateInfo) => {
   if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db");
+    throw new Error("Not connected to db!");
   }
   if (!updateInfo) {
-    throw new Error("Invalid input param");
+    throw new Error("Invalid input param!");
   }
-  let query = `update ${FlightSchema.schemaName} set`;
-
-  let request = dbConfig.db.pool.request();
-
-  const updateStr = dbUtils.getUpdateQuery(
+  let query = `UPDATE ${FlightSchema.schemaName} SET`;
+  const { request, updateStr } = dbUtils.getUpdateQuery(
     FlightSchema.schema,
-    request,
+    dbConfig.db.pool.request(),
     updateInfo
   );
   if (!updateStr) {
-    throw new Error("Invalid update param");
+    throw new Error("Invalid update param!");
   }
   request.input(
     FlightSchema.schema.id.name,
@@ -109,9 +132,9 @@ exports.updateFlightById = async (id, updateInfo) => {
     id
   );
   query +=
-    "" +
+    " " +
     updateStr +
-    ` where ${FlightSchema.schema.id.name} = @${FlightSchema.schema.id.name}`;
+    ` WHERE ${FlightSchema.schema.id.name} = @${FlightSchema.schema.id.name}`;
   let result = await request.query(query);
   return result.recordsets;
-}; //Error: Invalid update param
+}; //done

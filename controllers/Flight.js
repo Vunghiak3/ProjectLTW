@@ -2,7 +2,34 @@ const FlightDAO = require("./../DAO/FlightsDAO");
 
 //CRUD OPERATION
 exports.getAllFlight = async (req, res, next) => {};
-
+exports.getFlightById = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    let flight = await FlightDAO.getFlightsByID(id);
+    if (!flight) {
+      return res
+        .status(404) /// 404 - NOT FOUND!
+        .json({
+          code: 404,
+          msg: `Flight not existed`,
+        });
+    } else {
+      res.status(200).json({
+        code: 200,
+        msg: `OK`,
+        data: {
+          flight,
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
 exports.getFlightByLocation = async (req, res, next) => {
   const dateOfDepartment = req.query.date;
   const fromLocation = req.query.from;
@@ -42,25 +69,21 @@ exports.createFlight = async (req, res) => {
   const newFlight = req.body;
   try {
     await FlightDAO.createFlights(newFlight);
-    let flights = await FlightDAO.getFlightByDateAndLocation(
-      newFlight.fromLocation,
-      newFlight.toLocation
-    );
+    const flight = await FlightDAO.getFlightsByName(newFlight.name);
     return res.status(200).json({
       code: 200,
-      msg: `Create new flight successfully!`,
-      data: {
-        flights,
-      },
+      msg: "Create new flight successfully!",
+      data: { flight },
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({
       code: 500,
       msg: e.toString(),
     });
   }
 };
+
 exports.deleteFlight = async (req, res) => {
   try {
     const id = req.params.id * 1;
@@ -87,12 +110,12 @@ exports.updateFlight = async (req, res) => {
     const id = req.params.id * 1;
     const updateInfo = req.body;
     await FlightDAO.updateFlightById(id, updateInfo);
-    // const flight = await TourDAO.getFlightById(id); //todo
+    const flight = await FlightDAO.getFlightsByID(id); //todo
     return res.status(200).json({
       code: 200,
       msg: `Update tour flight id: ${id} successfully!`,
       data: {
-        //flight,
+        flight,
       },
     });
   } catch (e) {

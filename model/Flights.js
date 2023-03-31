@@ -8,6 +8,10 @@ const FlightSchema = new ModelSchema(
       name: "id",
       sqlType: sql.Int,
     }),
+    name: new ModelSchemaValidator({
+      name: "name",
+      sqlType: sql.VarChar,
+    }),
     fromLocation: new ModelSchemaValidator({
       name: "fromLocation",
       sqlType: sql.VarChar,
@@ -20,8 +24,8 @@ const FlightSchema = new ModelSchema(
       name: "dateOfDepartment",
       sqlType: sql.DateTime,
     }),
-    emtySeat: new ModelSchemaValidator({
-      name: "emtySeat",
+    emptySeat: new ModelSchemaValidator({
+      name: "emptySeat",
       sqlType: sql.Int,
     }),
     airportID: new ModelSchemaValidator({
