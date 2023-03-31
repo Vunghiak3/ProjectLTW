@@ -74,6 +74,7 @@ exports.getFilterQuery = (schema, filter, page, pageSize, defaultSort) => {
   if (sort) {
     let sortCriterias = sort.split(",");
     if (sortCriterias.length > 0) {
+      // console.log(sortCriterias);
       sortCriterias.forEach((criteria) => {
         let sortDirection = "asc";
         let sortProp = criteria;

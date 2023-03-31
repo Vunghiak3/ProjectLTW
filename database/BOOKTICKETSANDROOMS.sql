@@ -81,7 +81,10 @@ CREATE TABLE FLIGHTS(
 	AirportId INT CONSTRAINT FK_FLIGHTS_AIRPORTS FOREIGN KEY (AirportId) REFERENCES AIRPORTS(Id),
 	CreateAt DATETIME  NOT NULL/*DEFAULT CURRENT_TIMESTAMP*/,
 )
-Insert into FLIGHTS(FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('HCM','HN',30/4/2023,201,1,29/3/2023)
+delete from FLIGHTS
+select * from FLIGHTS
+Insert into FLIGHTS(Name,FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('Air-001','BMT','HCM','2023-05-23',201,1,'2020-05-22'),
+																										('Air-002','HCM','HN','2023-05-23',201,1,'2020-05-22')
 GO
 ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
 
