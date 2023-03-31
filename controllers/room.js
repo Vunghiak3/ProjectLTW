@@ -2,10 +2,15 @@ const RoomDAO = require("./../DAO/RoomDAO");
 
 exports.getAllRoomsHandler = async (req, res) => {
   try {
-    const rooms = await RoomDAO.getAllRooms(req.query);
+    const { page, pageSize, totalPage, totalItem, rooms } =
+      await RoomDAO.getAllRooms(req.query);
     return res.status(200).json({
       code: 200,
       msg: "OK",
+      page,
+      pageSize,
+      totalPage,
+      totalItem,
       data: {
         rooms,
       },

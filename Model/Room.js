@@ -28,13 +28,14 @@ const RoomSchema = new ModelSchema(
       sqlType: sql.Char,
       require: true,
     }),
-    createat: new ModelSchemaValidator({
+    createAt: new ModelSchemaValidator({
       name: "CreateAt",
       sqlType: sql.DateTime,
       require: true,
     }),
   },
-  "ROOMS"
+  "ROOMS",
+  "createAt"
 );
 
 module.exports = RoomSchema;

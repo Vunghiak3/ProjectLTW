@@ -15,8 +15,6 @@ exports.getAllHotel = async (filter) => {
     throw new Error("Not connected to db!");
   }
   let query = `SELECT * FROM ${HotelSchema.schemaName}`;
-  let result = await dbConfig.db.pool.request().query(query);
-  let hotels = result.recordsets[0];
 
   let countQuery = `SELECT COUNT(DISTINCT ${HotelSchema.schema.id.name}) AS totalItem FROM ${HotelSchema.schemaName}`;
   const page = filter.page * 1 || 1;
@@ -39,12 +37,15 @@ exports.getAllHotel = async (filter) => {
   if (paginationStr) {
     query += " " + paginationStr;
   }
+  console.log("🚀 ~ file: HotelDAO.js:39 ~ exports.getAllHotel= ~ query:", query)
+  let result = await dbConfig.db.pool.request().query(query);
   const countResult = await dbConfig.db.pool.request().query(countQuery);
   let totalItem = 0;
   if (countResult.recordsets[0].length > 0) {
     totalItem = countResult.recordsets[0][0].totalItem;
   }
   let totalPage = Math.ceil(totalItem / pageSize);
+  let hotels = result.recordsets[0];
 
   for (let i = 0; i < hotels.length; i++) {
     const hotel = hotels[i];

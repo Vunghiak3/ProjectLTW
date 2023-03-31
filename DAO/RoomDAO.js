@@ -1,18 +1,27 @@
-const RoomSchema = require("./../Model/Room");
 const dbConfig = require("./../database/dbconfig");
 const StaticData = require("./../utils/StaticData");
 const dbUtils = require("./../utils/dbUtils");
+const RoomSchema = require("./../Model/Room");
 const HotelSchema = require("./../Model/Hotel");
+const HotelDAO = require("./../DAO/HotelDAO");
+
+async function setRoomInfo(room) {
+  const hotel = await HotelDAO.getHotelById(room.HotelId);
+  room.NameHotel = hotel.Name;
+  room.Address = hotel.Address;
+  room.City = hotel.City;
+  return room;
+}
 
 exports.getAllRooms = async (filter) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
   let query = `SELECT * FROM ${RoomSchema.schemaName}`;
-  let result = await dbConfig.db.pool.request().query(query);
-  const rooms = result.recordsets[0];
-
+  let eq = await dbConfig.db.pool.request().query(query)
+  console.log(eq.recordsets[0]);
   let countQuery = `SELECT COUNT(DISTINCT ${RoomSchema.schema.id.name}) AS totalItem FROM ${RoomSchema.schemaName}`;
+
   const page = filter.page * 1 || 1;
   let pageSize = filter.pageSize * 1 || StaticData.config.MAX_PAGE_SIZE;
   if (pageSize > StaticData.config.MAX_PAGE_SIZE) {
@@ -30,15 +39,25 @@ exports.getAllRooms = async (filter) => {
     query += " " + filterStr;
     countQuery += " " + filterStr;
   }
+  console.log("🚀 ~ file: RoomDAO.js:40 ~ exports.getAllRooms= ~ query:", query)
   if (paginationStr) {
     query += " " + paginationStr;
   }
+  console.log("🚀 ~ file: RoomDAO.js:44 ~ exports.getAllRooms= ~ query:", query)
+  let result = await dbConfig.db.pool.request().query(query);
   const countResult = await dbConfig.db.pool.request().query(countQuery);
   let totalItem = 0;
   if (countResult.recordsets[0].length > 0) {
     totalItem = countResult.recordsets[0][0].totalItem;
   }
   let totalPage = Math.ceil(totalItem / pageSize);
+  const rooms = result.recordsets[0];
+
+  for (let i = 0; i < rooms.length; i++) {
+    const room = rooms[i];
+    await setRoomInfo(room);
+  }
+  
 
   return {
     page,
@@ -71,7 +90,7 @@ exports.getRoomByHotelId = async (id) => {
   let result = await request
     .input(HotelSchema.schema.id.name, HotelSchema.schema.id.sqlType, id)
     .query(
-      `SELECT DISTINCT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.hotelid.name}, ${RoomSchema.schema.status.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.createat.name} FROM ${RoomSchema.schemaName}, ${HotelSchema.schemaName} WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = @${HotelSchema.schema.id.name}`
+      `SELECT DISTINCT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.hotelid.name}, ${RoomSchema.schema.status.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.createAt.name} FROM ${RoomSchema.schemaName}, ${HotelSchema.schemaName} WHERE ${RoomSchema.schema.hotelid.name} = @${HotelSchema.schema.id.name}`
     );
   return result.recordsets[0];
 };
