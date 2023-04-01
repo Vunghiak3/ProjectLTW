@@ -106,7 +106,6 @@ exports.protect = async (req, res, next) => {
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
-      //Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsInVzZXJuYW1lIjoidGVzdCIsImlhdCI6MTY3OTUzMzEwOSwiZXhwIjoxNjc5NTU0NzA5fQ.HZ7zIGlbU2dQjgCUDbBridcO-CATrGbjthnNH0X2w-M
       token = req.headers.authorization.split(" ")[1];
     }
     if (!token) {
@@ -116,10 +115,6 @@ exports.protect = async (req, res, next) => {
       });
     }
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(
-      "🚀 ~ file: auth.js:120 ~ exports.protect= ~ payload:",
-      payload
-    );
     const currentUser = await UserDAO.getUser(payload.id);
     if (!currentUser) {
       return res.status(401).json({
@@ -142,7 +137,8 @@ exports.protect = async (req, res, next) => {
 
 exports.restricTo = (...roles) => {
   return async (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    console.log("🚀 ~ file: auth.js:140 ~ return ~ req:", req)
+    if (!roles.includes(req.user.RoleId)) {
       return res.status(403).json({
         code: 401,
         msg: "Your do not have permission to perform this action!",
