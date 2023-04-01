@@ -37,7 +37,6 @@ exports.getAllHotel = async (filter) => {
   if (paginationStr) {
     query += " " + paginationStr;
   }
-  console.log("🚀 ~ file: HotelDAO.js:39 ~ exports.getAllHotel= ~ query:", query)
   let result = await dbConfig.db.pool.request().query(query);
   const countResult = await dbConfig.db.pool.request().query(countQuery);
   let totalItem = 0;

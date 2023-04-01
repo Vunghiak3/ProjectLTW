@@ -18,7 +18,9 @@ app.use("/api/v1/flight", flightRouter);
 const hotelRouter = require("./routers/hotel");
 const roomRouter = require("./routers/room");
 const userRouter = require("./routers/user");
+const bookingroomRouter = require("./routers/bookingroom");
 
+app.use("/api/v1/hotels/booking", bookingroomRouter);
 app.use("/api/v1/hotels", hotelRouter);
 app.use("/api/v1/rooms", roomRouter);
 app.use("/api/v1/users", userRouter);
