@@ -9,6 +9,7 @@ class ModelSchemaValidator {
       case sql.NVarChar:
       case sql.DateTime:
       case sql.Char:
+      case sql.Date:
         this.type = "string";
         break;
       case sql.Int:

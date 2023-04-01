@@ -67,7 +67,7 @@ exports.createRoomHandler = async (req, res) => {
   const newRoom = req.body;
   try {
     await RoomDAO.createNewRoom(newRoom);
-    const room = await RoomDAO.getRoomByName(newRoom.name);
+    const room = await RoomDAO.getRoomByCreateAt(newRoom.createAt);
     let result = {
       code: 200,
       msg: "Create new hotel successfully!",

@@ -160,7 +160,7 @@ exports.getHotelByCreateAt = async (date) => {
       date
     )
     .query(
-      `select * from ${HotelSchema.schemaName} where ${HotelSchema.schema.createAt.name} = @${HotelSchema.schema.createAt.name}`
+      `SELECT * FROM ${HotelSchema.schemaName} WHERE ${HotelSchema.schema.createAt.name} = @${HotelSchema.schema.createAt.name}`
     );
   return result.recordsets[0][0];
 };

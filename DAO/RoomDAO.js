@@ -18,7 +18,7 @@ exports.getAllRooms = async (filter) => {
     throw new Error("Not connected to db!");
   }
   let query = `SELECT * FROM ${RoomSchema.schemaName}`;
-  let eq = await dbConfig.db.pool.request().query(query)
+  let eq = await dbConfig.db.pool.request().query(query);
   console.log(eq.recordsets[0]);
   let countQuery = `SELECT COUNT(DISTINCT ${RoomSchema.schema.id.name}) AS totalItem FROM ${RoomSchema.schemaName}`;
 
@@ -39,11 +39,17 @@ exports.getAllRooms = async (filter) => {
     query += " " + filterStr;
     countQuery += " " + filterStr;
   }
-  console.log("🚀 ~ file: RoomDAO.js:40 ~ exports.getAllRooms= ~ query:", query)
+  console.log(
+    "🚀 ~ file: RoomDAO.js:40 ~ exports.getAllRooms= ~ query:",
+    query
+  );
   if (paginationStr) {
     query += " " + paginationStr;
   }
-  console.log("🚀 ~ file: RoomDAO.js:44 ~ exports.getAllRooms= ~ query:", query)
+  console.log(
+    "🚀 ~ file: RoomDAO.js:44 ~ exports.getAllRooms= ~ query:",
+    query
+  );
   let result = await dbConfig.db.pool.request().query(query);
   const countResult = await dbConfig.db.pool.request().query(countQuery);
   let totalItem = 0;
@@ -57,7 +63,6 @@ exports.getAllRooms = async (filter) => {
     const room = rooms[i];
     await setRoomInfo(room);
   }
-  
 
   return {
     page,
@@ -119,31 +124,19 @@ exports.createNewRoom = async (room) => {
   if (!room) {
     throw new Error("Invalid input param!");
   }
-  let request = dbConfig.db.pool.request();
-  const result = await request
-    .input(
-      RoomSchema.schema.name.name,
-      RoomSchema.schema.name.sqlType,
-      room.name
-    )
-    .input(
-      RoomSchema.schema.price.name,
-      RoomSchema.schema.price.sqlType,
-      room.price
-    )
-    .input(
-      RoomSchema.schema.hotelid.name,
-      RoomSchema.schema.hotelid.sqlType,
-      room.hotelid
-    )
-    .input(
-      RoomSchema.schema.status.name,
-      RoomSchema.schema.status.sqlType,
-      room.status
-    )
-    .query(
-      `INSERT INTO ${RoomSchema.schemaName} (${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.hotelid.name}, ${RoomSchema.schema.status.name}) VALUES (@${RoomSchema.schema.name.name}, @${RoomSchema.schema.price.name}, @${RoomSchema.schema.hotelid.name}, @${RoomSchema.schema.status.name})`
+
+  let now = new Date();
+  room.createAt = now.toISOString();
+  let insertData = RoomSchema.validateData(room);
+  let query = `INSERT INTO ${RoomSchema.schemaName}`;
+  const { request, insertFieldNamesStr, insertValuesStr } =
+    dbUtils.getInsertQuery(
+      RoomSchema.schema,
+      dbConfig.db.pool.request(),
+      insertData
     );
+  query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
+  let result = await request.query(query);
   return result.recordsets;
 };
 
@@ -198,3 +191,20 @@ exports.updateRoomById = async (id, updateInfo) => {
 
   return result.recordsets;
 };
+
+exports.getRoomByCreateAt = async(createat)=>{
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  const request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      RoomSchema.schema.createAt.name,
+      RoomSchema.schema.createAt.sqlType,
+      createat
+    )
+    .query(
+      `SELECT * FROM ${RoomSchema.schemaName} WHERE ${RoomSchema.schema.createAt.name} = @${RoomSchema.schema.createAt.name}`
+    );
+  return result.recordsets[0][0];
+}
