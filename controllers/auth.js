@@ -78,7 +78,6 @@ exports.signup = async (req, res) => {
       birthday: form.birthday,
       roleid: StaticData.AUTH.Role.user,
     });
-      console.log("🚀 ~ file: auth.js:81 ~ exports.signup= ~ StaticData.AUTH.Role.user:", StaticData.AUTH.Role.user)
     const user = await UserDAO.getUserByUserName(form.username);
     delete user.password;
     delete user.passwordAt;
@@ -137,7 +136,6 @@ exports.protect = async (req, res, next) => {
 
 exports.restricTo = (...roles) => {
   return async (req, res, next) => {
-    console.log("🚀 ~ file: auth.js:140 ~ return ~ req:", req)
     if (!roles.includes(req.user.RoleId)) {
       return res.status(403).json({
         code: 401,

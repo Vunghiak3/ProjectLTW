@@ -15,18 +15,16 @@ const BookingRoomSchema = new ModelSchema(
     hotelid: new ModelSchemaValidator({
       name: "HotelId",
       sqlType: sql.Int,
+      require: true,
     }),
     roomid: new ModelSchemaValidator({
       name: "RoomId",
       sqlType: sql.Int,
+      require: true,
     }),
     price: new ModelSchemaValidator({
       name: "Price",
       sqlType: sql.Float,
-      require: true,
-      validator: function (val) {
-        return val >= 0;
-      },
     }),
     createAt: new ModelSchemaValidator({
       name: "CreateAt",
@@ -49,12 +47,10 @@ const BookingRoomSchema = new ModelSchema(
     checkoutdate: new ModelSchemaValidator({
       name: "CheckOutDate",
       sqlType: sql.Date,
-      require: true,
     }),
     status: new ModelSchemaValidator({
       name: "Status",
       sqlType: sql.NVarChar,
-      require: true,
     }),
   },
   "BOOKINGROOMS",

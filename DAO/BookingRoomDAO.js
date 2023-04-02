@@ -58,7 +58,9 @@ exports.createNewBookingRoom = async (newBookingRoom) => {
   }
   let now = new Date();
   newBookingRoom.createAt = now.toISOString();
+  console.log("🚀 ~ file: BookingRoomDAO.js:57 ~ exports.createNewBookingRoom= ~ newBookingRoom:", newBookingRoom)
   let insertData = BookingRoomSchema.validateData(newBookingRoom);
+  console.log("🚀 ~ file: BookingRoomDAO.js:63 ~ exports.createNewBookingRoom= ~ insertData:", insertData)
   let query = `INSERT INTO ${BookingRoomSchema.schemaName}`;
   const { request, insertFieldNamesStr, insertValuesStr } =
     dbUtils.getInsertQuery(
@@ -69,6 +71,23 @@ exports.createNewBookingRoom = async (newBookingRoom) => {
   query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
   return result.recordsets;
+};
+
+exports.getBookingRoomByCreateAt = async (createat) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let bookingroom = request
+    .input(
+      BookingRoomSchema.schema.createAt.name,
+      BookingRoomSchema.schema.createAt.sqlType,
+      createat
+    )
+    .query(
+      `SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.createAt.name} = @${BookingRoomSchema.schema.createAt.name}`
+    );
+  return result.recordsets[0][0];
 };
 
 // exports.findRooms = async(data)=>{

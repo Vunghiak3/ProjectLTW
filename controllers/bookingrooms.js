@@ -31,5 +31,26 @@ exports.findRoom = async (req, res) => {
 };
 
 exports.createBookingRoom = async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
+  const newBookingRoom = req.body;
+  try {
+    await BookingRoomDAO.createNewBookingRoom(newBookingRoom);
+    const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
+      newBookingRoom.createAt
+    );
+    let result = {
+      code: 200,
+      msg: "Create new booking room successfully!",
+      data: {
+        bookingroom,
+      },
+    };
+    return res.status(200).json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
 };
