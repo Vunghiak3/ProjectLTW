@@ -196,16 +196,16 @@ GO
 -- END;
 -- GO
 
--- CREATE TRIGGER trg_UpdateCheckOutDate
--- ON BOOKINGROOMS
--- AFTER INSERT, UPDATE
--- AS
--- BEGIN
---     UPDATE BOOKINGROOMS
---     SET CheckOutDate = DATEADD(day, NumberDay, CheckInDate)
---     FROM BOOKINGROOMS
---     WHERE BOOKINGROOMS.Id IN (SELECT Id FROM inserted)
--- END;
+CREATE TRIGGER trg_UpdateCheckOutDate
+ON BOOKINGROOMS
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    UPDATE BOOKINGROOMS
+    SET CheckOutDate = DATEADD(day, NumberDay, CheckInDate)
+    FROM BOOKINGROOMS
+    WHERE BOOKINGROOMS.Id IN (SELECT Id FROM inserted)
+END;
 
 /*INSERT INTO ROLES(Name) VALUES ('user'), ('hotelManager'), ('filghtManager'), ('admin')
 USE MASTER

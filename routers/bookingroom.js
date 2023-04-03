@@ -4,13 +4,20 @@ const authController = require("./../controllers/auth");
 const bookingroomController = require("./../controllers/bookingrooms");
 const StaticData = require("./../utils/StaticData");
 
+router.param("id", bookingroomController.checkHotelById);
+
 router
   .route("/")
-  .get(authController.protect, bookingroomController.getAllBookingRooms)
-  .post(authController.protect, bookingroomController.createBookingRoom);
+  .get(authController.protect, bookingroomController.getAllBookingRoomsHandler)
+  .post(authController.protect, bookingroomController.createBookingRoomHandler);
 
-// router
-//   .route("/search")
-//   .get(authController.protect, bookingroomController.findRoom);
+router
+  .route("/:id")
+  .delete(
+    authController.protect,
+    bookingroomController.deleteBookingRoomHandler
+  )
+  .patch(authController.protect, bookingroomController.updateBookingRoomHandler)
+  .get(authController.protect, bookingroomController.getBookRoomHandler);
 
 module.exports = router;

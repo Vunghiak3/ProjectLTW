@@ -19,6 +19,10 @@ router
   );
 
 router
+  .route("/search")
+  .get(authController.protect, roomController.findRoomsHandler);
+
+router
   .route("/:id")
   .get(authController.protect, roomController.getRoomHandler)
   .delete(

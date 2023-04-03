@@ -123,3 +123,22 @@ exports.updateRoomHandler = async (req, res) => {
     });
   }
 };
+
+exports.findRoomsHandler = async (req, res) => {
+  try {
+    const rooms = await RoomDAO.findRooms(req.query);
+    res.status(200).json({
+      code: 200,
+      msg: "OK",
+      data: {
+        rooms,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};

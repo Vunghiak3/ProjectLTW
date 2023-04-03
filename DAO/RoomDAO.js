@@ -3,6 +3,7 @@ const StaticData = require("./../utils/StaticData");
 const dbUtils = require("./../utils/dbUtils");
 const RoomSchema = require("./../Model/Room");
 const HotelSchema = require("./../Model/Hotel");
+const BookingRoomSchema = require("./../Model/BookingRoom");
 const HotelDAO = require("./../DAO/HotelDAO");
 
 async function setRoomInfo(room) {
@@ -18,8 +19,6 @@ exports.getAllRooms = async (filter) => {
     throw new Error("Not connected to db!");
   }
   let query = `SELECT * FROM ${RoomSchema.schemaName}`;
-  let eq = await dbConfig.db.pool.request().query(query);
-  console.log(eq.recordsets[0]);
   let countQuery = `SELECT COUNT(DISTINCT ${RoomSchema.schema.id.name}) AS totalItem FROM ${RoomSchema.schemaName}`;
 
   const page = filter.page * 1 || 1;
@@ -39,17 +38,9 @@ exports.getAllRooms = async (filter) => {
     query += " " + filterStr;
     countQuery += " " + filterStr;
   }
-  console.log(
-    "🚀 ~ file: RoomDAO.js:40 ~ exports.getAllRooms= ~ query:",
-    query
-  );
   if (paginationStr) {
     query += " " + paginationStr;
   }
-  console.log(
-    "🚀 ~ file: RoomDAO.js:44 ~ exports.getAllRooms= ~ query:",
-    query
-  );
   let result = await dbConfig.db.pool.request().query(query);
   const countResult = await dbConfig.db.pool.request().query(countQuery);
   let totalItem = 0;
@@ -71,6 +62,84 @@ exports.getAllRooms = async (filter) => {
     totalPage,
     rooms: rooms,
   };
+};
+
+// exports.findRooms = async (info) => {
+//   if (!dbConfig.db.pool) {
+//     throw new Error("Not connected to db!");
+//   }
+//   let query = `SELECT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.status.name},`;
+//   let from = `FROM ${RoomSchema.schemaName}`;
+//   let where = "";
+//   if (info.city) {
+//     query += ` ${HotelSchema.schemaName}.${HotelSchema.schema.name.name} AS NameHotel, ${HotelSchema.schema.city.name}, ${HotelSchema.schema.address.name}`;
+//     from += `, ${HotelSchema.schemaName}`;
+//     where += `WHERE ${RoomSchema.schema.hotelid.name} = ${HotelSchema.schemaName}.${HotelSchema.schema.id.name} AND ${HotelSchema.schema.city.name} = @${HotelSchema.schema.city.name} AND ${RoomSchema.schema.status.name} = 'FALSE'`;
+//   }
+//   query += " " + from + " " + where;
+//   console.log("🚀 ~ file: RoomDAO.js:79 ~ exports.findRooms= ~ query:", query);
+//   let result = await dbConfig.db.pool
+//     .request()
+//     .input(
+//       HotelSchema.schema.city.name,
+//       HotelSchema.schema.city.sqlType,
+//       info.city
+//     )
+//     .query(query);
+//   return result.recordsets[0];
+// };
+
+exports.findRooms = async (info) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let query = `
+    SELECT DISTINCT ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}, 
+           ${RoomSchema.schemaName}.${RoomSchema.schema.name.name}, 
+           ${RoomSchema.schemaName}.${RoomSchema.schema.price.name}, 
+           ${RoomSchema.schemaName}.${RoomSchema.schema.status.name}`;
+
+  let from = `FROM ${RoomSchema.schemaName}`;
+
+  let where = "";
+
+  if (info.city) {
+    request.input(
+      HotelSchema.schema.city.name,
+      HotelSchema.schema.city.sqlType,
+      info.city
+    );
+    query += `, ${HotelSchema.schemaName}.${HotelSchema.schema.name.name} AS NameHotel, 
+              ${HotelSchema.schema.city.name}, 
+              ${HotelSchema.schema.address.name}`;
+
+    from += `, ${HotelSchema.schemaName}`;
+
+    where += `WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = ${HotelSchema.schemaName}.${HotelSchema.schema.id.name} 
+              AND ${HotelSchema.schema.city.name} = @${HotelSchema.schema.city.name} 
+              AND ${RoomSchema.schemaName}.${RoomSchema.schema.status.name} = 'FALSE'`;
+  }
+
+  if (info.checkindate) {
+    console.log("🚀 ~ file: RoomDAO.js:125 ~ exports.findRooms= ~ info.checkindate:", info.checkindate)
+    request.input(
+      BookingRoomSchema.schema.checkindate.name,
+      BookingRoomSchema.schema.checkindate.sqlType,
+      info.checkindate
+    );
+    from += `, ${BookingRoomSchema.schemaName} `;
+    where += where ? " AND " : "WHERE ";
+    where += `${BookingRoomSchema.schema.checkoutdate.name} < @${BookingRoomSchema.schema.checkindate.name}`;
+    // AND ${BookingRoomSchema.schema.roomid.name} = ${RoomSchema.schemaName}.${RoomSchema.schema.id.name}
+  }
+
+  let queryStr = query + " " + from + " " + where;
+  console.log("🚀 ~ file: RoomDAO.js:137 ~ exports.findRooms= ~ queryStr:", queryStr)
+
+  let result = await request.query(queryStr);
+
+  return result.recordsets[0];
 };
 
 exports.getRoomById = async (id) => {
@@ -192,7 +261,7 @@ exports.updateRoomById = async (id, updateInfo) => {
   return result.recordsets;
 };
 
-exports.getRoomByCreateAt = async(createat)=>{
+exports.getRoomByCreateAt = async (createat) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
@@ -207,4 +276,4 @@ exports.getRoomByCreateAt = async(createat)=>{
       `SELECT * FROM ${RoomSchema.schemaName} WHERE ${RoomSchema.schema.createAt.name} = @${RoomSchema.schema.createAt.name}`
     );
   return result.recordsets[0][0];
-}
+};

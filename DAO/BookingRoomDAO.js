@@ -39,28 +39,27 @@ exports.getAllBookingRoom = async (filter) => {
     totalItem = countResult.recordsets[0][0].totalItem;
   }
   let totalPage = Math.ceil(totalItem / pageSize);
-  let hotels = result.recordsets[0];
+  let bookingrooms = result.recordsets[0];
   return {
     page,
     pageSize,
     totalPage,
     totalItem,
-    hotels: hotels,
+    bookingrooms: bookingrooms,
   };
 };
 
-exports.createNewBookingRoom = async (newBookingRoom) => {
+exports.createBookRoom = async (newBookRoom) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
-  if (!newBookingRoom) {
+  if (!newBookRoom) {
     throw new Error("Invalid input param!");
   }
   let now = new Date();
-  newBookingRoom.createAt = now.toISOString();
-  console.log("🚀 ~ file: BookingRoomDAO.js:57 ~ exports.createNewBookingRoom= ~ newBookingRoom:", newBookingRoom)
-  let insertData = BookingRoomSchema.validateData(newBookingRoom);
-  console.log("🚀 ~ file: BookingRoomDAO.js:63 ~ exports.createNewBookingRoom= ~ insertData:", insertData)
+  newBookRoom.createAt = now.toISOString();
+  newBookRoom.status = "confirmed";
+  let insertData = BookingRoomSchema.validateData(newBookRoom);
   let query = `INSERT INTO ${BookingRoomSchema.schemaName}`;
   const { request, insertFieldNamesStr, insertValuesStr } =
     dbUtils.getInsertQuery(
@@ -78,7 +77,7 @@ exports.getBookingRoomByCreateAt = async (createat) => {
     throw new Error("Not connected to db!");
   }
   let request = dbConfig.db.pool.request();
-  let bookingroom = request
+  let result = await request
     .input(
       BookingRoomSchema.schema.createAt.name,
       BookingRoomSchema.schema.createAt.sqlType,
@@ -90,19 +89,65 @@ exports.getBookingRoomByCreateAt = async (createat) => {
   return result.recordsets[0][0];
 };
 
-// exports.findRooms = async(data)=>{
-//   if(!dbConfig.db.pool){
-//     throw new Error('Not connected to db!')
-//   }
-//   let query = `SELECT ${RoomSchema.schema.id.name}, ${RoomSchema.schema.name.name}, ${RoomSchema.schema.price.name}, ${RoomSchema.schema.status.name} FROM ${RoomSchema.schemaName}`
-//   let where = ' WHERE'
-//   if(data.city){
-//     query += `, ${HotelSchema.schemaName}`
-//     where += `${RoomSchema.schema.hotelid.name} = ${HotelSchema.schema.id.name}`
-//   }
-//   if(data.checkindate || data.numberday){
-//     query += `, ${BookingRoomSchema.schemaName}`
-//     where += `AND ${RoomSchema.schema.id.name} = ${BookingRoomSchema.schema.roomid.name}`
-//   }
+exports.deleteBookRoom = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      BookingRoomSchema.schema.id.name,
+      BookingRoomSchema.schema.id.sqlType,
+      id
+    )
+    .query(
+      `DELETE ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.id.name} = @${BookingRoomSchema.schema.id.name}`
+    );
+  return result.recordsets;
+};
 
-// }
+exports.updateBookRoom = async (id, updateInfo) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!updateInfo) {
+    throw new Error("Invalid input param!");
+  }
+  let query = `UPDATE ${BookingRoomSchema.schemaName} SET`;
+  const { request, updateStr } = dbUtils.getUpdateQuery(
+    BookingRoomSchema.schema,
+    dbConfig.db.pool.request(),
+    updateInfo
+  );
+  if (!updateStr) {
+    throw new Error("Invalid update param!");
+  }
+  request.input(
+    BookingRoomSchema.schema.id.name,
+    BookingRoomSchema.schema.id.sqlType,
+    id
+  );
+  query +=
+    " " +
+    updateStr +
+    ` WHERE ${BookingRoomSchema.schema.id.name} = @${BookingRoomSchema.schema.id.name}`;
+  let result = await request.query(query);
+  return result.recordsets;
+};
+
+exports.getBookRoomById = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      BookingRoomSchema.schema.id.name,
+      BookingRoomSchema.schema.id.sqlType,
+      id
+    )
+    .query(
+      `SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.id.name} = @${BookingRoomSchema.schema.id.name}`
+    );
+  return result.recordsets[0][0];
+};
