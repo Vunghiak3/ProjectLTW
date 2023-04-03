@@ -1,0 +1,107 @@
+const SeatSchema = require("../model/Seat");
+const SeatDAO = require("./../DAO/SeatDAO");
+exports.getAllSeats = async (req, res) => {
+  try {
+    const { page, pageSize, totalPage, totalItem, seats } =
+      await SeatDAO.getAllSeats(req.query);
+    return res.status(200).json({
+      code: 200,
+      msg: "OK",
+      page,
+      pageSize,
+      totalPage,
+      totalItem,
+      data: {
+        seats,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+exports.getSeatById = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    let seat = await SeatDAO.geetSeatById(id);
+    if (!seat) {
+      return res.status(404).json({
+        code: 404,
+        msg: `Seats not existed`,
+      });
+    } else {
+      res.status(200).json({
+        code: 200,
+        msg: `OK`,
+        data: {
+          seat,
+        },
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+exports.createSeat = async (req, res) => {
+  const newSeat = req.body;
+  try {
+    await SeatDAO.createSeat(newSeat);
+    const seat = await SeatDAO.getSeatsByName(newSeat.name, newSeat.FlightId);
+    return res.status(200).json({
+      code: 200,
+      msg: "Create new flight successfully!",
+      data: { seat },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+exports.deleteBySeatId = async (req, res) => {
+  try {
+    const id = req.params.id * 1;
+    // await FlightBookingDAO.deleteById(id);
+    await SeatDAO.deleteSeatById(id);
+    return res.status(200).json({
+      code: 200,
+      msg: `Delete seat with ${id} successfully!`,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+exports.updateSeat = async (req, res) => {
+  try {
+    const id = req.params.id * 1;
+    const updateInfo = req.body;
+    await SeatDAO.updateSeatById(id, updateInfo);
+    const seat = await SeatDAO.geetSeatById(id);
+    return res.status(200).json({
+      code: 200,
+      msg: `Update tour flight id: ${id} successfully!`,
+      data: {
+        seat,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};

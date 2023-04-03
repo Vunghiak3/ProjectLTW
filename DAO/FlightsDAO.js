@@ -3,7 +3,61 @@ const dbUtils = require("../utils/dbUtils");
 const StaticData = require("../utils/StaticData");
 const FlightSchema = require("../model/Flights");
 
-exports.getAllFlights = async () => {};
+// async function setFlightInfor(flight) {
+//   const flights = await RoomsDAO.getFlightsByID(flight.Id);
+//   flight.Id = flights;
+//   return flight;
+// }
+
+exports.getAllFlights = async (filter) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  const page = filter.page * 1 || 1;
+  let query = `SELECT * FROM ${FlightSchema.schemaName}`;
+
+  let countQuery = `SELECT COUNT(DISTINCT ${FlightSchema.schema.id.name}) AS totalItem FROM ${FlightSchema.schemaName}`;
+
+  let pageSize = filter.pageSize * 1 || StaticData.config.MAX_PAGE_SIZE;
+  if (pageSize > StaticData.config.MAX_PAGE_SIZE) {
+    pageSize = StaticData.config.MAX_PAGE_SIZE;
+  }
+  const { filterStr, paginationStr } = dbUtils.getFilterQuery(
+    FlightSchema.schema,
+    filter,
+    page,
+    pageSize,
+    FlightSchema.defaultSort
+  );
+
+  if (filterStr) {
+    query += " " + filterStr;
+    countQuery += " " + filterStr;
+  }
+  if (paginationStr) {
+    query += " " + paginationStr;
+  }
+  let result = await dbConfig.db.pool.request().query(query);
+  const countResult = await dbConfig.db.pool.request().query(countQuery);
+  let totalItem = 0;
+  if (countResult.recordsets[0].length > 0) {
+    totalItem = countResult.recordsets[0][0].totalItem;
+  }
+  let totalPage = Math.ceil(totalItem / pageSize);
+  let flights = result.recordsets[0];
+
+  // for (let i = 0; i < flights.length; i++) {
+  //   const flight = flights[i];
+  //   await setFlightInfor(flight);
+  // }
+  return {
+    page,
+    pageSize,
+    totalPage,
+    totalItem,
+    flights: flights,
+  };
+};
 
 exports.getFlightsByID = async function (id) {
   if (!dbConfig.db.pool) {

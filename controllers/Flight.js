@@ -1,18 +1,38 @@
 const FlightDAO = require("./../DAO/FlightsDAO");
-
+const SeatDAO = require("./../DAO/SeatDAO");
 //CRUD OPERATION
-exports.getAllFlight = async (req, res, next) => {};
+exports.getAllFlight = async (req, res) => {
+  try {
+    const { page, pageSize, totalPage, totalItem, flights } =
+      await FlightDAO.getAllFlights(req.query);
+    return res.status(200).json({
+      code: 200,
+      msg: "OK",
+      page,
+      pageSize,
+      totalPage,
+      totalItem,
+      data: {
+        flights,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
 exports.getFlightById = async (req, res, next) => {
   const id = req.params.id;
   try {
     let flight = await FlightDAO.getFlightsByID(id);
     if (!flight) {
-      return res
-        .status(404) /// 404 - NOT FOUND!
-        .json({
-          code: 404,
-          msg: `Flight not existed`,
-        });
+      return res.status(404).json({
+        code: 404,
+        msg: `Flight not existed`,
+      });
     } else {
       res.status(200).json({
         code: 200,
@@ -41,12 +61,10 @@ exports.getFlightByLocation = async (req, res, next) => {
       toLocation
     );
     if (!flights) {
-      return res
-        .status(404) /// 404 - NOT FOUND!
-        .json({
-          code: 404,
-          msg: `Flight not existed`,
-        });
+      return res.status(404).json({
+        code: 404,
+        msg: `Flight not existed`,
+      });
     } else {
       res.status(200).json({
         code: 200,
@@ -63,7 +81,7 @@ exports.getFlightByLocation = async (req, res, next) => {
       msg: e.toString(),
     });
   }
-}; //Done
+};
 
 exports.createFlight = async (req, res) => {
   const newFlight = req.body;
@@ -87,8 +105,9 @@ exports.createFlight = async (req, res) => {
 exports.deleteFlight = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    // await SeatDAO.deleteBySeatId(id);
+    await SeatDAO.deleteSeatById(id);
     //await AirportDAO.deleteByAirportId(id);
+    // await FlightBookingDAO.deleteById(id);
     await FlightDAO.deleteFlightById(id);
     return res.status(200).json({
       code: 200,
@@ -96,21 +115,19 @@ exports.deleteFlight = async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res
-      .status(500) // 500 - Internal Error
-      .json({
-        code: 500,
-        msg: e.toString(),
-      });
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
   }
-}; //Done
+};
 
 exports.updateFlight = async (req, res) => {
   try {
     const id = req.params.id * 1;
     const updateInfo = req.body;
     await FlightDAO.updateFlightById(id, updateInfo);
-    const flight = await FlightDAO.getFlightsByID(id); //todo
+    const flight = await FlightDAO.getFlightsByID(id);
     return res.status(200).json({
       code: 200,
       msg: `Update tour flight id: ${id} successfully!`,
@@ -120,11 +137,9 @@ exports.updateFlight = async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res
-      .status(500) // 500 - Internal Error
-      .json({
-        code: 500,
-        msg: e.toString(),
-      });
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
   }
 };

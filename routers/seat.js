@@ -1,41 +1,36 @@
 const express = require("express");
 const router = express.Router();
 const StaticData = require("../utils/StaticData");
-flightController = require("./../controllers/Flight");
+seatController = require("./../controllers/seat");
 const authController = require("./../controllers/auth");
 router
   .route("/")
-  .get(authController.protect, flightController.getAllFlight)
+  .get(authController.protect, seatController.getAllSeats)
   .post(
     authController.protect,
     authController.restricTo(
       StaticData.AUTH.Role.admin,
       StaticData.AUTH.Role.flightManager
     ),
-    flightController.createFlight
+    seatController.createSeat
   );
-
 router
   .route("/:id")
-  .get(authController.protect, flightController.getFlightById)
-  .patch(
-    authController.protect,
-    authController.restricTo(
-      StaticData.AUTH.Role.admin,
-      StaticData.AUTH.Role.flightManager
-    ),
-    flightController.updateFlight
-  )
+  .get(authController.protect, seatController.getSeatById)
   .delete(
     authController.protect,
     authController.restricTo(
       StaticData.AUTH.Role.admin,
       StaticData.AUTH.Role.flightManager
     ),
-    flightController.deleteFlight
+    seatController.deleteBySeatId
+  )
+  .patch(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    seatController.updateSeat
   );
-router
-  .route("/find")
-  .get(authController.protect, flightController.getFlightByLocation);
-
 module.exports = router;
