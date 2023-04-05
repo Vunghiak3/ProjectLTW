@@ -14,8 +14,10 @@ app.use(express.json());
 
 const flightRouter = require("./routers/Flight");
 const seatRouter = require("./routers/seat");
+const airPortRouter = require("./routers/airPort");
 app.use("/api/v1/flight", flightRouter);
 app.use("/api/v1/seat", seatRouter);
+app.use("/api/v1/airports", airPortRouter);
 
 const hotelRouter = require("./routers/hotel");
 const roomRouter = require("./routers/room");

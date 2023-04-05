@@ -105,9 +105,8 @@ exports.createFlight = async (req, res) => {
 exports.deleteFlight = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    await SeatDAO.deleteSeatById(id);
-    //await AirportDAO.deleteByAirportId(id);
     // await FlightBookingDAO.deleteById(id);
+    await SeatDAO.deleteSeatById(id);
     await FlightDAO.deleteFlightById(id);
     return res.status(200).json({
       code: 200,
@@ -130,7 +129,7 @@ exports.updateFlight = async (req, res) => {
     const flight = await FlightDAO.getFlightsByID(id);
     return res.status(200).json({
       code: 200,
-      msg: `Update tour flight id: ${id} successfully!`,
+      msg: `Update flight id: ${id} successfully!`,
       data: {
         flight,
       },

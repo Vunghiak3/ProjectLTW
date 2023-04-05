@@ -3,12 +3,6 @@ const dbUtils = require("../utils/dbUtils");
 const StaticData = require("../utils/StaticData");
 const FlightSchema = require("../model/Flights");
 
-// async function setFlightInfor(flight) {
-//   const flights = await RoomsDAO.getFlightsByID(flight.Id);
-//   flight.Id = flights;
-//   return flight;
-// }
-
 exports.getAllFlights = async (filter) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
@@ -46,10 +40,6 @@ exports.getAllFlights = async (filter) => {
   let totalPage = Math.ceil(totalItem / pageSize);
   let flights = result.recordsets[0];
 
-  // for (let i = 0; i < flights.length; i++) {
-  //   const flight = flights[i];
-  //   await setFlightInfor(flight);
-  // }
   return {
     page,
     pageSize,
@@ -124,7 +114,7 @@ exports.getFlightByDateAndLocation = async function (
     return result.recordsets[0][0];
   }
   return null;
-}; //Done
+};
 
 exports.createFlights = async (flight) => {
   if (!dbConfig.db.pool) {
@@ -146,9 +136,8 @@ exports.createFlights = async (flight) => {
   query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
   return result.recordsets;
-}; //done
+};
 
-//try alt for create
 exports.deleteFlightById = async (id) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db");
@@ -160,9 +149,8 @@ exports.deleteFlightById = async (id) => {
       `delete ${FlightSchema.schemaName} where ${FlightSchema.schema.id.name} = @${FlightSchema.schema.id.name}`
     );
 
-  // console.log(result);
   return result.recordsets;
-}; //Done
+};
 
 exports.updateFlightById = async (id, updateInfo) => {
   if (!dbConfig.db.pool) {
@@ -191,4 +179,4 @@ exports.updateFlightById = async (id, updateInfo) => {
     ` WHERE ${FlightSchema.schema.id.name} = @${FlightSchema.schema.id.name}`;
   let result = await request.query(query);
   return result.recordsets;
-}; //done
+};
