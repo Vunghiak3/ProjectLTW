@@ -36,12 +36,10 @@ const HotelSchema = new ModelSchema(
     emtyrooms: new ModelSchemaValidator({
       name: "EmtyRooms",
       sqlType: sql.Int,
-      require: true,
     }),
     createAt: new ModelSchemaValidator({
       name: "createAt",
       sqlType: sql.DateTime,
-      require: true,
     }),
   },
   "HOTELS",

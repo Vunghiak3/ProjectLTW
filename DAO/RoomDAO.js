@@ -64,76 +64,6 @@ exports.getAllRooms = async (filter) => {
   };
 };
 
-exports.findRooms = async (info) => {
-  if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db!");
-  }
-  let request = dbConfig.db.pool.request();
-  let query = `SELECT DISTINCT ${RoomSchema.schemaName}.*`;
-  let from = `FROM ${RoomSchema.schemaName}`;
-  let where = `WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.status.name} = 'TRUE'`;
-
-  if (info.city) {
-    request.input(
-      HotelSchema.schema.city.name,
-      HotelSchema.schema.city.sqlType,
-      info.city
-    );
-    query += `, ${HotelSchema.schemaName}.${HotelSchema.schema.name.name} AS NameHotel, ${HotelSchema.schema.city.name}, ${HotelSchema.schema.address.name}`;
-
-    from += ` JOIN ${HotelSchema.schemaName} ON ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = ${HotelSchema.schemaName}.${HotelSchema.schema.id.name}`;
-    where += ` AND ${HotelSchema.schema.city.name} = @${HotelSchema.schema.city.name}`;
-  }
-
-  if (info.checkindate) {
-    if (new Date(info.checkindate) < new Date()) {
-      throw new Error("Invalid date!");
-    }
-    request.input(
-      BookingRoomSchema.schema.checkindate.name,
-      BookingRoomSchema.schema.checkindate.sqlType,
-      info.checkindate
-    );
-    from += `, ${BookingRoomSchema.schemaName}`;
-    where += ` AND ${BookingRoomSchema.schema.checkoutdate.name} < @${BookingRoomSchema.schema.checkindate.name}`;
-  }
-
-  if (info.numberday) {
-    if (info.numberday <= 0) {
-      throw new Error("Invalid numberday!");
-    }
-    request.input(
-      BookingRoomSchema.schema.numberday.name,
-      BookingRoomSchema.schema.numberday.sqlType,
-      info.numberday
-    );
-    let checkindate = new Date(info.checkindate);
-    checkindate = new Date(checkindate.setDate(checkindate.getDate() + 1));
-    let checkoutdate = new Date(checkindate.getTime());
-    checkoutdate = new Date(
-      checkoutdate.setDate(checkoutdate.getDate() - 1 + info.numberday - 1)
-    );
-    console.log(
-      "🚀 ~ file: RoomDAO.js:112 ~ exports.findRooms= ~ checkindate:",
-      checkindate
-    );
-    console.log(
-      "🚀 ~ file: RoomDAO.js:117 ~ exports.findRooms= ~ checkoutdate:",
-      checkoutdate
-    );
-    where += ` AND '${checkoutdate.toLocaleDateString()}' < ${
-      BookingRoomSchema.schema.checkindate.name
-    } OR '${checkoutdate.toLocaleDateString()}' > ${
-      BookingRoomSchema.schema.checkoutdate.name
-    }`;
-  }
-
-  let queryStr = query + " " + from + " " + where;
-  let result = await request.query(queryStr);
-
-  return result.recordsets[0];
-};
-
 exports.getRoomById = async (id) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db1");
@@ -270,4 +200,62 @@ exports.getRoomByCreateAt = async (createat) => {
       `SELECT * FROM ${RoomSchema.schemaName} WHERE ${RoomSchema.schema.createAt.name} = @${RoomSchema.schema.createAt.name}`
     );
   return result.recordsets[0][0];
+};
+
+//Booking Rooms
+exports.findRooms = async (info) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let query = `SELECT DISTINCT ${RoomSchema.schemaName}.*`;
+  let from = `FROM ${RoomSchema.schemaName}`;
+  let where = `WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.status.name} = 'TRUE'`;
+
+  if (info.city) {
+    request.input(
+      HotelSchema.schema.city.name,
+      HotelSchema.schema.city.sqlType,
+      info.city
+    );
+
+    where += ` AND ${RoomSchema.schema.hotelid.name} IN (SELECT ${HotelSchema.schema.id.name} FROM ${HotelSchema.schemaName} WHERE ${HotelSchema.schema.city.name} = @${HotelSchema.schema.city.name})`;
+  }
+
+  if (info.checkindate) {
+    if (new Date(info.checkindate) < new Date()) {
+      throw new Error("Invalid date!");
+    }
+    let checkindate = new Date(info.checkindate);
+    checkindate = new Date(checkindate.setDate(checkindate.getDate() + 1));
+    request.input(
+      BookingRoomSchema.schema.checkindate.name,
+      BookingRoomSchema.schema.checkindate.sqlType,
+      checkindate
+    );
+    // from += `, ${BookingRoomSchema.schemaName}`;
+    where += ` AND NOT EXISTS(SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.id.name} = ${BookingRoomSchema.schema.roomid.name} AND ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = ${BookingRoomSchema.schemaName}.${BookingRoomSchema.schema.hotelid.name} AND ${BookingRoomSchema.schema.checkoutdate.name} >= @${BookingRoomSchema.schema.checkindate.name})`;
+  }
+
+  if (info.numberday) {
+    if (info.numberday <= 0) {
+      throw new Error("Invalid numberday!");
+    }
+    where = where.slice(0, -1)
+    let checkoutdate = new Date(info.checkindate);
+    checkoutdate = new Date(
+      checkoutdate.setDate(checkoutdate.getDate() + Number(info.numberday) + 1)
+    );
+    request.input(
+      BookingRoomSchema.schema.checkoutdate.name,
+      BookingRoomSchema.schema.checkoutdate.sqlType,
+      checkoutdate
+    );
+    where += ` AND ${BookingRoomSchema.schema.checkindate.name} <= @${BookingRoomSchema.schema.checkoutdate.name})`;
+  }
+
+  let queryStr = query + " " + from + " " + where;
+  let result = await request.query(queryStr);
+
+  return result.recordsets[0];
 };

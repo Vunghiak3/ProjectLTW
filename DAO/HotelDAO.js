@@ -1,4 +1,5 @@
 const HotelSchema = require("../Model/Hotel");
+const RoomSchema = require("../Model/Room");
 const dbConfig = require("./../database/dbconfig");
 const dbUtils = require("./../utils/dbUtils");
 const StaticData = require("./../utils/StaticData");
@@ -164,16 +165,29 @@ exports.getHotelByCreateAt = async (date) => {
   return result.recordsets[0][0];
 };
 
-exports.updateEmtyRoomHotel = async (val)=>{
-  if(!dbConfig.db.pool){
-    throw new Error('Not connected to db!')
+exports.updateEmtyRoomHotel = async (val) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
   }
-  let request = dbConfig.db.pool.request()
-  let query = `UPDATE ${HotelSchema.schemaName} SET ${HotelSchema.schema.emtyrooms.name} = ${HotelSchema.schema.emtyrooms.name}`
-  if(val === 'insert'){
-    query += ' + 1'
-  }else if (val === 'delete'){
-    query += ' - 1'
+  let request = dbConfig.db.pool.request();
+  let query = `UPDATE ${HotelSchema.schemaName} SET ${HotelSchema.schema.emtyrooms.name} = ${HotelSchema.schema.emtyrooms.name}`;
+  if (val === "insert") {
+    query += " + 1";
+  } else if (val === "delete") {
+    query += " - 1";
   }
-  await request.query(query)
-}
+  await request.query(query);
+};
+
+exports.getHotelByIdRoom = async (hotelid) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(RoomSchema.schema.id.name, RoomSchema.schema.id.sqlType, hotelid)
+    .query(
+      `SELECT ${HotelSchema.schemaName}.* FROM ${HotelSchema.schemaName}, ${RoomSchema.schemaName} WHERE ${RoomSchema.schema.hotelid.name} = ${HotelSchema.schemaName}.${HotelSchema.schema.id.name} AND ${RoomSchema.schemaName}.${RoomSchema.schema.id.name} = @${RoomSchema.schema.id.name}`
+    );
+  return result.recordsets[0][0];
+};

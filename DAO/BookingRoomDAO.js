@@ -5,9 +5,9 @@ const BookingRoomSchema = require("./../Model/BookingRoom");
 const RoomSchema = require("./../Model/Room");
 const HotelSchema = require("./../Model/Hotel");
 const RoomDAO = require("./RoomDAO");
-// const { query } = require("mssql");
+const HotelDAO = require("./HotelDAO");
 
-exports.getAllBookingRoom = async (filter) => {
+exports.getAllBookRoom = async (filter) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
@@ -49,29 +49,6 @@ exports.getAllBookingRoom = async (filter) => {
     totalItem,
     bookingrooms: bookingrooms,
   };
-};
-
-exports.createBookRoom = async (newBookRoom) => {
-  if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db!");
-  }
-  if (!newBookRoom) {
-    throw new Error("Invalid input param!");
-  }
-  let now = new Date();
-  newBookRoom.createAt = now.toISOString();
-  newBookRoom.status = "confirmed";
-  let insertData = BookingRoomSchema.validateData(newBookRoom);
-  let query = `INSERT INTO ${BookingRoomSchema.schemaName}`;
-  const { request, insertFieldNamesStr, insertValuesStr } =
-    dbUtils.getInsertQuery(
-      BookingRoomSchema.schema,
-      dbConfig.db.pool.request(),
-      insertData
-    );
-  query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
-  let result = await request.query(query);
-  return result.recordsets;
 };
 
 exports.getBookingRoomByCreateAt = async (createat) => {
@@ -161,4 +138,66 @@ exports.totalPriceRoom = async (id, numberday) => {
   let room = await RoomDAO.getRoomById(id);
   let query = `UPDATE ${BookingRoomSchema.schemaName} SET ${BookingRoomSchema.schema.price.name} = ${room.Price} * ${numberday}`;
   await dbConfig.db.pool.request().query(query);
+};
+
+//Booking rooms
+exports.bookRoom = async (info) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!info) {
+    throw new Error("Invalid input params!");
+  }
+
+  let now = new Date();
+  info.createAt = now.toISOString();
+  info.status = "pending";
+  const hotel = await HotelDAO.getHotelByIdRoom(info.roomid);
+  info.hotelid = hotel.Id;
+  let insertData = BookingRoomSchema.validateData(info);
+  let query = `INSERT INTO ${BookingRoomSchema.schemaName}`;
+  const { request, insertFieldNamesStr, insertValuesStr } =
+    dbUtils.getInsertQuery(
+      BookingRoomSchema.schema,
+      dbConfig.db.pool.request(),
+      insertData
+    );
+  query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
+  let result = await request.query(query);
+  return result.recordsets;
+};
+
+exports.cancelRoom = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let result = dbConfig.db.pool
+    .request()
+    .input(
+      BookingRoomSchema.schema.id.name,
+      BookingRoomSchema.schema.id.sqlType,
+      id
+    )
+    .query(
+      `UPDATE ${BookingRoomSchema.schemaName} SET ${BookingRoomSchema.schema.status.name} = 'cancelled'`
+    );
+  return result.recordsets;
+};
+
+exports.getAllBookRoomsByUserId = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(
+      BookingRoomSchema.schema.userid.name,
+      BookingRoomSchema.schema.userid.sqlType,
+      id
+    )
+    .query(
+      `SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.userid.name} = @${BookingRoomSchema.schema.userid.name}`
+    );
+
+  return result.recordsets[0];
 };
