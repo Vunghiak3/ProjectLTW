@@ -31,6 +31,10 @@ exports.createBookingRoomHandler = async (req, res) => {
   const newBookingRoom = req.body;
   try {
     await BookingRoomDAO.createBookRoom(newBookingRoom);
+    await BookingRoomDAO.totalPriceRoom(
+      newBookingRoom.roomid,
+      newBookingRoom.numberday
+    );
     const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
       newBookingRoom.createAt
     );

@@ -4,6 +4,8 @@ const StaticData = require("./../utils/StaticData");
 const BookingRoomSchema = require("./../Model/BookingRoom");
 const RoomSchema = require("./../Model/Room");
 const HotelSchema = require("./../Model/Hotel");
+const RoomDAO = require("./RoomDAO");
+// const { query } = require("mssql");
 
 exports.getAllBookingRoom = async (filter) => {
   if (!dbConfig.db.pool) {
@@ -150,4 +152,13 @@ exports.getBookRoomById = async (id) => {
       `SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.id.name} = @${BookingRoomSchema.schema.id.name}`
     );
   return result.recordsets[0][0];
+};
+
+exports.totalPriceRoom = async (id, numberday) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let room = await RoomDAO.getRoomById(id);
+  let query = `UPDATE ${BookingRoomSchema.schemaName} SET ${BookingRoomSchema.schema.price.name} = ${room.Price} * ${numberday}`;
+  await dbConfig.db.pool.request().query(query);
 };

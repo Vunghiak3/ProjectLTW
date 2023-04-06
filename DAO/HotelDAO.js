@@ -163,3 +163,17 @@ exports.getHotelByCreateAt = async (date) => {
     );
   return result.recordsets[0][0];
 };
+
+exports.updateEmtyRoomHotel = async (val)=>{
+  if(!dbConfig.db.pool){
+    throw new Error('Not connected to db!')
+  }
+  let request = dbConfig.db.pool.request()
+  let query = `UPDATE ${HotelSchema.schemaName} SET ${HotelSchema.schema.emtyrooms.name} = ${HotelSchema.schema.emtyrooms.name}`
+  if(val === 'insert'){
+    query += ' + 1'
+  }else if (val === 'delete'){
+    query += ' - 1'
+  }
+  await request.query(query)
+}

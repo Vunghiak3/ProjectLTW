@@ -154,13 +154,13 @@ END;
 GO
 
 --AUTO UPDATE ROOM 
-CREATE TRIGGER roomUpdate ON BOOKINGROOMS AFTER INSERT AS 
-BEGIN
-	UPDATE HOTELS
-	SET EmtyRooms = EmtyRooms -1
-	From HOTELS
-	JOIN inserted ON HOTELS.Id = inserted.HotelId
-END;
+-- CREATE TRIGGER roomUpdate ON BOOKINGROOMS AFTER INSERT AS 
+-- BEGIN
+-- 	UPDATE HOTELS
+-- 	SET EmtyRooms = EmtyRooms -1
+-- 	From HOTELS
+-- 	JOIN inserted ON HOTELS.Id = inserted.HotelId
+-- END;
 GO
 
 CREATE TRIGGER roomStatus ON BOOKINGROOMS AFTER INSERT AS 
@@ -174,13 +174,13 @@ GO
 
 /*ROOMS*/
 
-CREATE TRIGGER roomInsert ON ROOMS AFTER INSERT AS
-BEGIN
-	UPDATE HOTELS
-	SET EmtyRooms = EmtyRooms + 1
-	FROM HOTELS
-	JOIN inserted ON HOTELS.Id = inserted.HotelId
-END;
+-- CREATE TRIGGER roomInsert ON ROOMS AFTER INSERT AS
+-- BEGIN
+-- 	UPDATE HOTELS
+-- 	SET EmtyRooms = EmtyRooms + 1
+-- 	FROM HOTELS
+-- 	JOIN inserted ON HOTELS.Id = inserted.HotelId
+-- END;
 GO
 
 -- CREATE TRIGGER trg_UpdatePrice
