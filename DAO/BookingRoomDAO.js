@@ -131,14 +131,17 @@ exports.getBookRoomById = async (id) => {
   return result.recordsets[0][0];
 };
 
-exports.totalPriceRoom = async (id, numberday) => {
+async function totalPriceRoom(id, numberday) {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
+  if (numberday <= 0) {
+    throw new Error("Invalid numberday!");
+  }
   let room = await RoomDAO.getRoomById(id);
-  let query = `UPDATE ${BookingRoomSchema.schemaName} SET ${BookingRoomSchema.schema.price.name} = ${room.Price} * ${numberday}`;
-  await dbConfig.db.pool.request().query(query);
-};
+  let price = room.Price * numberday;
+  return price;
+}
 
 //Booking rooms
 exports.bookRoom = async (info) => {
@@ -152,6 +155,7 @@ exports.bookRoom = async (info) => {
   let now = new Date();
   info.createAt = now.toISOString();
   info.status = "pending";
+  info.price = await totalPriceRoom(info.roomid, info.numberday);
   const hotel = await HotelDAO.getHotelByIdRoom(info.roomid);
   info.hotelid = hotel.Id;
   let insertData = BookingRoomSchema.validateData(info);

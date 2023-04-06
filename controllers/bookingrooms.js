@@ -117,7 +117,6 @@ exports.bookRoomHandler = async (req, res) => {
   info.userid = userId;
   try {
     await BookingRoomDAO.bookRoom(info);
-    await BookingRoomDAO.totalPriceRoom(info.roomid, info.numberday);
     const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
       info.createAt
     );
