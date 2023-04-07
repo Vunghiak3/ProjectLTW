@@ -15,7 +15,6 @@ const BookingRoomSchema = new ModelSchema(
     hotelid: new ModelSchemaValidator({
       name: "HotelId",
       sqlType: sql.Int,
-      require: true,
     }),
     roomid: new ModelSchemaValidator({
       name: "RoomId",
@@ -29,7 +28,6 @@ const BookingRoomSchema = new ModelSchema(
     createAt: new ModelSchemaValidator({
       name: "CreateAt",
       sqlType: sql.DateTime,
-      require: true,
     }),
     checkindate: new ModelSchemaValidator({
       name: "CheckInDate",

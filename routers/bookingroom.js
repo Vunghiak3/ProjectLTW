@@ -8,16 +8,55 @@ router.param("id", bookingroomController.checkHotelById);
 
 router
   .route("/")
-  .get(authController.protect, bookingroomController.getAllBookingRoomsHandler)
-  .post(authController.protect, bookingroomController.createBookingRoomHandler);
+  .get(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.hotelManager
+    ),
+    bookingroomController.getAllBookingRoomsHandler
+  );
+
+router
+  .route("/userid/all")
+  .get(
+    authController.protect,
+    bookingroomController.getAllBookingRoomsOfUserLoginHandler
+  );
+
+router
+  .route("/room")
+  .post(authController.protect, bookingroomController.bookRoomHandler);
+
+router
+  .route("/room/:id")
+  .patch(authController.protect, bookingroomController.cancelRoomHandler);
 
 router
   .route("/:id")
   .delete(
     authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.hotelManager
+    ),
     bookingroomController.deleteBookingRoomHandler
   )
-  .patch(authController.protect, bookingroomController.updateBookingRoomHandler)
-  .get(authController.protect, bookingroomController.getBookRoomHandler);
+  .patch(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.hotelManager
+    ),
+    bookingroomController.updateBookingRoomHandler
+  )
+  .get(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.hotelManager
+    ),
+    bookingroomController.getBookRoomHandler
+  );
 
 module.exports = router;

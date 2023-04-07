@@ -1,9 +1,10 @@
 const BookingRoomDAO = require("./../DAO/BookingRoomDAO");
+const jwt = require("jsonwebtoken");
 
 exports.getAllBookingRoomsHandler = async (req, res) => {
   try {
     const { page, pageSize, totalPage, totalItem, bookingrooms } =
-      await BookingRoomDAO.getAllBookingRoom(req.query);
+      await BookingRoomDAO.getAllBookRoom(req.query);
     return res.status(200).json({
       code: 200,
       msg: "OK",
@@ -26,35 +27,6 @@ exports.getAllBookingRoomsHandler = async (req, res) => {
   }
 };
 
-exports.createBookingRoomHandler = async (req, res) => {
-  console.log(req.body);
-  const newBookingRoom = req.body;
-  try {
-    await BookingRoomDAO.createBookRoom(newBookingRoom);
-    await BookingRoomDAO.totalPriceRoom(
-      newBookingRoom.roomid,
-      newBookingRoom.numberday
-    );
-    const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
-      newBookingRoom.createAt
-    );
-    let result = {
-      code: 200,
-      msg: "Create new booking room successfully!",
-      data: {
-        bookingroom,
-      },
-    };
-    return res.status(200).json(result);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({
-      code: 500,
-      msg: e.toString(),
-    });
-  }
-};
-
 exports.deleteBookingRoomHandler = async (req, res) => {
   try {
     const id = req.params.id * 1;
@@ -74,8 +46,6 @@ exports.deleteBookingRoomHandler = async (req, res) => {
 
 exports.updateBookingRoomHandler = async (req, res) => {
   try {
-    console.log(req.params.id);
-    console.log(req.body);
     const id = req.params.id * 1;
     const updateInfo = req.body;
     await BookingRoomDAO.updateBookRoom(id, updateInfo);
@@ -136,4 +106,81 @@ exports.checkHotelById = async (req, res, next, val) => {
       });
   }
   next();
+};
+
+//Booking rooms
+exports.bookRoomHandler = async (req, res) => {
+  const info = req.body;
+  let token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  info.userid = userId;
+  try {
+    await BookingRoomDAO.bookRoom(info);
+    const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
+      info.createAt
+    );
+    let result = {
+      code: 200,
+      msg: "Booking Successful!",
+      data: {
+        bookingroom,
+      },
+    };
+    return res.status(200).json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+
+exports.cancelRoomHandler = async (req, res) => {
+  const id = req.params.id * 1;
+  try {
+    const cancelRoom = await BookingRoomDAO.getBookRoomById(id);
+    if (cancelRoom.Status === "pending") {
+      await BookingRoomDAO.cancelRoom(id);
+    } else {
+      throw new Error("Can not cancel the room!");
+    }
+    return res.status(200).json({
+      code: 200,
+      msg: "Cancellation successful!",
+      data: {
+        cancelRoom,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+
+exports.getAllBookingRoomsOfUserLoginHandler = async (req, res) => {
+  let token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  try {
+    const bookingRooms = await BookingRoomDAO.getAllBookRoomsByUserId(userId);
+    let result = {
+      code: 200,
+      msg: "OK",
+      data: {
+        bookingRooms,
+      },
+    };
+    return res.status(200).json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
 };
