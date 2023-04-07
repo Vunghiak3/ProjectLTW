@@ -116,7 +116,7 @@ exports.bookRoomHandler = async (req, res) => {
   const userId = decodedToken.id;
   info.userid = userId;
   try {
-    await BookingRoomDAO.bookRoom(info);
+    await BookingRoomDAO.createBookroom(info);
     const bookingroom = await BookingRoomDAO.getBookingRoomByCreateAt(
       info.createAt
     );
@@ -138,21 +138,24 @@ exports.bookRoomHandler = async (req, res) => {
 };
 
 exports.cancelRoomHandler = async (req, res) => {
-  const id = req.params.id * 1;
   try {
-    const cancelRoom = await BookingRoomDAO.getBookRoomById(id);
-    if (cancelRoom.Status === "pending") {
-      await BookingRoomDAO.cancelRoom(id);
+    const id = req.params.id * 1;
+    req.body.status = "cancelled";
+    const updateInfo = req.body;
+    let bookRoom = await BookingRoomDAO.getBookRoomById(id);
+    if (bookRoom.Status === "pending") {
+      await BookingRoomDAO.updateBookRoom(id, updateInfo);
+      bookRoom = await BookingRoomDAO.getBookRoomById(id);
+      return res.status(200).json({
+        code: 200,
+        msg: `Successful cancellation!`,
+        data: {
+          bookRoom,
+        },
+      });
     } else {
       throw new Error("Can not cancel the room!");
     }
-    return res.status(200).json({
-      code: 200,
-      msg: "Cancellation successful!",
-      data: {
-        cancelRoom,
-      },
-    });
   } catch (e) {
     console.error(e);
     res.status(500).json({
@@ -166,21 +169,28 @@ exports.getAllBookingRoomsOfUserLoginHandler = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decodedToken.id;
+  req.query.userid = userId;
   try {
-    const bookingRooms = await BookingRoomDAO.getAllBookRoomsByUserId(userId);
-    let result = {
+    const { page, pageSize, totalPage, totalItem, bookingrooms } =
+      await BookingRoomDAO.getAllBookRoom(req.query);
+    return res.status(200).json({
       code: 200,
       msg: "OK",
+      page,
+      pageSize,
+      totalPage,
+      totalItem,
       data: {
-        bookingRooms,
+        bookingrooms,
       },
-    };
-    return res.status(200).json(result);
+    });
   } catch (e) {
     console.error(e);
-    res.status(500).json({
-      code: 500,
-      msg: e.toString(),
-    });
+    res
+      .status(500) // 500 - Internal Error
+      .json({
+        code: 500,
+        msg: e.toString(),
+      });
   }
 };
