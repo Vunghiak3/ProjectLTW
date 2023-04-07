@@ -55,7 +55,7 @@ exports.createAirPort = async (req, res) => {
   const newAirPort = req.body;
   try {
     await AirPortDAO.createAirPort(newAirPort);
-    const airPort = await AirPortDAO.getAirPortsByName(newAirPort.name);
+    const airPort = await AirPortDAO.getAirPortByCreateAt(newAirPort.createAt);
     return res.status(200).json({
       code: 200,
       msg: "Create new flight successfully!",

@@ -63,22 +63,21 @@ exports.getAirPortByID = async function (id) {
   return airPort;
 };
 
-exports.getAirPortsByName = async function (name) {
+exports.getAirPortByCreateAt = async (createat) => {
   if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db");
+    throw new Error("Not connected to db!");
   }
-  let result = await dbConfig.db.pool
-    .request()
+  let request = dbConfig.db.pool.request();
+  let result = await request
     .input(
-      AirPortSchema.schema.name.name,
-      AirPortSchema.schema.name.sqlType,
-      name
+      AirPortSchema.schema.createAt.name,
+      AirPortSchema.schema.createAt.sqlType,
+      createat
     )
     .query(
-      `SELECT * FROM ${AirPortSchema.schemaName} WHERE ${AirPortSchema.schema.name.name} = @${AirPortSchema.schema.name.name}`
+      `SELECT * FROM ${AirPortSchema.schemaName} WHERE ${AirPortSchema.schema.createAt.name} = @${AirPortSchema.schema.createAt.name}`
     );
-  let airPort = result.recordsets[0][0];
-  return airPort;
+  return result.recordsets[0][0];
 };
 
 exports.createAirPort = async (airPort) => {

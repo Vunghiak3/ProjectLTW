@@ -1,8 +1,11 @@
 const dbConfig = require("../database/dbconfig");
 const dbUtils = require("../utils/dbUtils");
 const StaticData = require("../utils/StaticData");
-const FlightBookingSchema = require("../model/FlightBooking");
 
+const FlightBookingSchema = require("../model/FlightBooking");
+const FlightSchema = require("../model/Flights");
+const SeatSchema = require("../model/Seat");
+const AirPortSchema = require("../model/airPort");
 exports.getAllBooking = async (filter) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
@@ -61,10 +64,32 @@ exports.getBookingByID = async function (id) {
       id
     )
     .query(
-      `SELECT * FROM ${FlightBookingSchema.schemaName} WHERE ${FlightBookingSchema.schema.id.name} = @${FlightBookingSchema.schema.id.name}`
+      `SELECT bf.*, ap.name
+      FROM ${FlightBookingSchema.schemaName} bf
+      JOIN ${SeatSchema.schemaName} s ON bf.${FlightBookingSchema.schema.SeatId.name} = s.id
+      JOIN ${FlightSchema.schemaName} f ON bf.${FlightBookingSchema.schema.FlightId.name} = f.id
+      JOIN  ${AirPortSchema.schemaName} ap ON f.${FlightSchema.schema.airportID.name} = ap.id
+      WHERE bf.Id = @${FlightBookingSchema.schema.id.name}`
     );
   let booking = result.recordsets[0][0];
   return booking;
+};
+
+exports.getBookingByCreateAt = async (createat) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      FlightBookingSchema.schema.createAt.name,
+      FlightBookingSchema.schema.createAt.sqlType,
+      createat
+    )
+    .query(
+      `SELECT * FROM ${FlightBookingSchema.schemaName} WHERE ${FlightBookingSchema.schema.createAt.name} = @${FlightBookingSchema.schema.createAt.name}`
+    );
+  return result.recordsets[0][0];
 };
 
 exports.createBooking = async (booking) => {
@@ -106,6 +131,7 @@ exports.deleteBookingById = async (id) => {
 
   return result.recordsets;
 };
+
 exports.deleteBySeatId = async (SeatId) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db");

@@ -88,7 +88,7 @@ exports.createFlight = async (req, res) => {
   const newFlight = req.body;
   try {
     await FlightDAO.createFlights(newFlight);
-    const flight = await FlightDAO.getFlightsByName(newFlight.name);
+    const flight = await FlightDAO.getFlightByCreateAt(newFlight.createAt);
     return res.status(200).json({
       code: 200,
       msg: "Create new flight successfully!",

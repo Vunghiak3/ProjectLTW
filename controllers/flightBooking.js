@@ -1,5 +1,5 @@
 const FlightBookingDAO = require("./../DAO/FlightBookingDAO");
-
+const jwt = require("jsonwebtoken");
 //CRUD OPERATION
 exports.getAllBooking = async (req, res) => {
   try {
@@ -53,9 +53,16 @@ exports.getBookingById = async (req, res, next) => {
 
 exports.createBooking = async (req, res) => {
   const newFlight = req.body;
+  let token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  newFlight.UserId = userId;
+
   try {
     await FlightBookingDAO.createBooking(newFlight);
-    const booking = await FlightBookingDAO.getBookingByID(newFlight.name);
+    const booking = await FlightBookingDAO.getBookingByCreateAt(
+      newFlight.createAt
+    );
     return res.status(200).json({
       code: 200,
       msg: "Create new booking successfully!",

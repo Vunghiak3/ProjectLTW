@@ -54,10 +54,10 @@ exports.createSeat = async (req, res) => {
   const newSeat = req.body;
   try {
     await SeatDAO.createSeat(newSeat);
-    const seat = await SeatDAO.getSeatsByName(newSeat.name, newSeat.FlightId);
+    const seat = await SeatDAO.getSeatByCreateAt(newSeat.createAt);
     return res.status(200).json({
       code: 200,
-      msg: "Create new flight successfully!",
+      msg: "Create new seat successfully!",
       data: { seat },
     });
   } catch (e) {

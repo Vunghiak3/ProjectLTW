@@ -62,23 +62,21 @@ exports.geetSeatById = async function (id) {
   let seat = result.recordsets[0][0];
   return seat;
 };
-exports.getSeatsByName = async function (name, FlightId) {
+exports.getSeatByCreateAt = async (date) => {
   if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db");
+    throw new Error("Not connected to db!");
   }
-  let result = await dbConfig.db.pool
-    .request()
-    .input(SeatSchema.schema.name.name, SeatSchema.schema.name.sqlType, name)
+  const request = dbConfig.db.pool.request();
+  let result = await request
     .input(
-      SeatSchema.schema.FlightId.name,
-      SeatSchema.schema.FlightId.sqlType,
-      FlightId
+      SeatSchema.schema.createAt.name,
+      SeatSchema.schema.createAt.sqlType,
+      date
     )
     .query(
-      `SELECT * FROM ${SeatSchema.schemaName} WHERE ${SeatSchema.schema.name.name} = @${SeatSchema.schema.name.name} AND ${SeatSchema.schema.FlightId.name} = @${SeatSchema.schema.FlightId.name} `
+      `SELECT * FROM ${SeatSchema.schemaName} WHERE ${SeatSchema.schema.createAt.name} = @${SeatSchema.schema.createAt.name}`
     );
-  let seat = result.recordsets[0][0];
-  return seat;
+  return result.recordsets[0][0];
 };
 exports.createSeat = async (seat) => {
   if (!dbConfig.db.pool) {

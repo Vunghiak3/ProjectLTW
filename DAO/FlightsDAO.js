@@ -63,22 +63,21 @@ exports.getFlightsByID = async function (id) {
   return flight;
 };
 
-exports.getFlightsByName = async function (name) {
+exports.getFlightByCreateAt = async (createat) => {
   if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db");
+    throw new Error("Not connected to db!");
   }
-  let result = await dbConfig.db.pool
-    .request()
+  let request = dbConfig.db.pool.request();
+  let result = await request
     .input(
-      FlightSchema.schema.name.name,
-      FlightSchema.schema.name.sqlType,
-      name
+      FlightSchema.schema.createAt.name,
+      FlightSchema.schema.createAt.sqlType,
+      createat
     )
     .query(
-      `SELECT * FROM ${FlightSchema.schemaName} WHERE ${FlightSchema.schema.name.name} = @${FlightSchema.schema.name.name}`
+      `SELECT * FROM ${FlightSchema.schemaName} WHERE ${FlightSchema.schema.createAt.name} = @${FlightSchema.schema.createAt.name}`
     );
-  let flight = result.recordsets[0][0];
-  return flight;
+  return result.recordsets[0][0];
 };
 
 exports.getFlightByDateAndLocation = async function (
