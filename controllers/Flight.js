@@ -1,4 +1,5 @@
 const FlightDAO = require("./../DAO/FlightsDAO");
+const FlightBookingDAO = require("./../DAO/FlightBookingDAO");
 const SeatDAO = require("./../DAO/SeatDAO");
 //CRUD OPERATION
 exports.getAllFlight = async (req, res) => {
@@ -105,9 +106,11 @@ exports.createFlight = async (req, res) => {
 exports.deleteFlight = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    // await FlightBookingDAO.deleteById(id);
-    await SeatDAO.deleteSeatById(id);
+
+    await FlightBookingDAO.deleteByFlightId(id);
+    await SeatDAO.deleteByFlightId(id);
     await FlightDAO.deleteFlightById(id);
+
     return res.status(200).json({
       code: 200,
       msg: `Delete flight with ${id} successfully!`,

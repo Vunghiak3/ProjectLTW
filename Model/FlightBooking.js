@@ -2,7 +2,7 @@ const ModelSchemaValidator = require("./ModelSchemaValidator");
 const ModelSchema = require("./ModelSchema");
 const sql = require("mssql");
 
-const FlightSchema = new ModelSchema(
+const FlightBookingSchema = new ModelSchema(
   {
     id: new ModelSchemaValidator({
       name: "id",
@@ -10,10 +10,6 @@ const FlightSchema = new ModelSchema(
     }),
     UserId: new ModelSchemaValidator({
       name: "UserId",
-      sqlType: sql.Int,
-    }),
-    AirportId: new ModelSchemaValidator({
-      name: "AirportId",
       sqlType: sql.Int,
     }),
     FlightId: new ModelSchemaValidator({
@@ -24,17 +20,13 @@ const FlightSchema = new ModelSchema(
       name: "SeatId",
       sqlType: sql.Int,
     }),
-    PRICE: new ModelSchemaValidator({
-      name: "PRICE",
-      sqlType: sql.Float,
-    }),
     createAt: new ModelSchemaValidator({
       name: "createAt",
       sqlType: sql.DateTime,
       require: true,
     }),
   },
-  "AIRPORT",
+  "BOOKINGFLIGHTS",
   "CreateAt"
 );
-module.exports = AirPortSchema;
+module.exports = FlightBookingSchema;

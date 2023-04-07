@@ -113,6 +113,22 @@ exports.deleteSeatById = async (id) => {
     );
   return result.recordsets;
 };
+exports.deleteByFlightId = async (FlightId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      SeatSchema.schema.FlightId.name,
+      SeatSchema.schema.FlightId.sqlType,
+      FlightId
+    )
+    .query(
+      `delete ${SeatSchema.schemaName} where ${SeatSchema.schema.FlightId.name} = @${SeatSchema.schema.FlightId.name}`
+    );
+  return result.recordsets;
+};
 exports.updateSeatById = async (id, updateInfo) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");

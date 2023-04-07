@@ -1,5 +1,6 @@
 const SeatSchema = require("../model/Seat");
 const SeatDAO = require("./../DAO/SeatDAO");
+const FlightBookingDAO = require("./../DAO/FlightBookingDAO");
 exports.getAllSeats = async (req, res) => {
   try {
     const { page, pageSize, totalPage, totalItem, seats } =
@@ -70,7 +71,7 @@ exports.createSeat = async (req, res) => {
 exports.deleteBySeatId = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    // await FlightBookingDAO.deleteById(id);
+    await FlightBookingDAO.deleteBySeatId(id);
     await SeatDAO.deleteSeatById(id);
     return res.status(200).json({
       code: 200,

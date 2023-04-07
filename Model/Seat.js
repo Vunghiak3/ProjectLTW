@@ -24,10 +24,6 @@ const SeatSchema = new ModelSchema(
       name: "FlightId",
       sqlType: sql.Int,
     }),
-    AirportId: new ModelSchemaValidator({
-      name: "AirportId",
-      sqlType: sql.Int,
-    }),
     CreateAt: new ModelSchemaValidator({
       name: "CreateAt",
       sqlType: sql.DATETIME,
