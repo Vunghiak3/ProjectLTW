@@ -4,7 +4,7 @@ const authController = require("./../controllers/auth");
 const bookingroomController = require("./../controllers/bookingrooms");
 const StaticData = require("./../utils/StaticData");
 
-router.param("id", bookingroomController.checkHotelById);
+router.param("id", bookingroomController.checkRoomById);
 
 router
   .route("/")

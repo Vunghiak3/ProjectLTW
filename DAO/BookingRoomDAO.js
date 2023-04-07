@@ -2,8 +2,6 @@ const dbConfig = require("./../database/dbconfig");
 const dbUtils = require("./../utils/dbUtils");
 const StaticData = require("./../utils/StaticData");
 const BookingRoomSchema = require("./../Model/BookingRoom");
-const RoomSchema = require("./../Model/Room");
-const HotelSchema = require("./../Model/Hotel");
 const RoomDAO = require("./RoomDAO");
 const HotelDAO = require("./HotelDAO");
 
@@ -143,8 +141,7 @@ async function totalPriceRoom(id, numberday) {
   return price;
 }
 
-//Booking rooms
-exports.bookRoom = async (info) => {
+exports.createBookroom = async (info) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
@@ -169,39 +166,4 @@ exports.bookRoom = async (info) => {
   query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
   return result.recordsets;
-};
-
-exports.cancelRoom = async (id) => {
-  if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db!");
-  }
-  let result = dbConfig.db.pool
-    .request()
-    .input(
-      BookingRoomSchema.schema.id.name,
-      BookingRoomSchema.schema.id.sqlType,
-      id
-    )
-    .query(
-      `UPDATE ${BookingRoomSchema.schemaName} SET ${BookingRoomSchema.schema.status.name} = 'cancelled'`
-    );
-  return result.recordsets;
-};
-
-exports.getAllBookRoomsByUserId = async (id) => {
-  if (!dbConfig.db.pool) {
-    throw new Error("Not connected to db!");
-  }
-  let result = await dbConfig.db.pool
-    .request()
-    .input(
-      BookingRoomSchema.schema.userid.name,
-      BookingRoomSchema.schema.userid.sqlType,
-      id
-    )
-    .query(
-      `SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${BookingRoomSchema.schema.userid.name} = @${BookingRoomSchema.schema.userid.name}`
-    );
-
-  return result.recordsets[0];
 };
