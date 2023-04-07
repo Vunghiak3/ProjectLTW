@@ -2,8 +2,6 @@ const dbConfig = require("./../database/dbconfig");
 const dbUtils = require("./../utils/dbUtils");
 const StaticData = require("./../utils/StaticData");
 const BookingRoomSchema = require("./../Model/BookingRoom");
-const RoomSchema = require("./../Model/Room");
-const HotelSchema = require("./../Model/Hotel");
 const RoomDAO = require("./RoomDAO");
 const HotelDAO = require("./HotelDAO");
 

@@ -86,7 +86,7 @@ exports.getBookRoomHandler = async (req, res) => {
   }
 };
 
-exports.checkHotelById = async (req, res, next, val) => {
+exports.checkRoomById = async (req, res, next, val) => {
   try {
     const id = val;
     let bookroom = await BookingRoomDAO.getBookRoomById(id);
