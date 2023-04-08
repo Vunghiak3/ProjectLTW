@@ -86,7 +86,7 @@ exports.getBookRoomHandler = async (req, res) => {
   }
 };
 
-exports.checkRoomById = async (req, res, next, val) => {
+exports.checkBookRoomById = async (req, res, next, val) => {
   try {
     const id = val;
     let bookroom = await BookingRoomDAO.getBookRoomById(id);
@@ -166,10 +166,6 @@ exports.cancelRoomHandler = async (req, res) => {
 };
 
 exports.getAllBookingRoomsOfUserLoginHandler = async (req, res) => {
-  let token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  const userId = decodedToken.id;
-  req.query.userid = userId;
   try {
     const { page, pageSize, totalPage, totalItem, bookingrooms } =
       await BookingRoomDAO.getAllBookRoom(req.query);
@@ -193,4 +189,13 @@ exports.getAllBookingRoomsOfUserLoginHandler = async (req, res) => {
         msg: e.toString(),
       });
   }
+};
+
+exports.checkBookRoomByUserId = async (req, res, next, id) => {
+  let token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  console.log("🚀 ~ file: bookingroom.js:13 ~ router.param ~ userId:", userId);
+  req.query.userid = userId;
+  next();
 };

@@ -4,25 +4,9 @@ const authController = require("./../controllers/auth");
 const bookingroomController = require("./../controllers/bookingrooms");
 const StaticData = require("./../utils/StaticData");
 
-router.param("id", bookingroomController.checkRoomById);
+router.param("id", bookingroomController.checkBookRoomById);
 
-router
-  .route("/")
-  .get(
-    authController.protect,
-    authController.restricTo(
-      StaticData.AUTH.Role.admin,
-      StaticData.AUTH.Role.hotelManager
-    ),
-    bookingroomController.getAllBookingRoomsHandler
-  );
-
-router
-  .route("/userid/all")
-  .get(
-    authController.protect,
-    bookingroomController.getAllBookingRoomsOfUserLoginHandler
-  );
+router.param("userid", bookingroomController.checkBookRoomByUserId);
 
 router
   .route("/room")
@@ -57,6 +41,24 @@ router
       StaticData.AUTH.Role.hotelManager
     ),
     bookingroomController.getBookRoomHandler
+  );
+
+router
+  .route("/:userid/all")
+  .get(
+    authController.protect,
+    bookingroomController.getAllBookingRoomsOfUserLoginHandler
+  );
+
+router
+  .route("/")
+  .get(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.hotelManager
+    ),
+    bookingroomController.getAllBookingRoomsHandler
   );
 
 module.exports = router;
