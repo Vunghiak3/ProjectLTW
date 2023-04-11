@@ -179,3 +179,21 @@ exports.updateFlightById = async (id, updateInfo) => {
   let result = await request.query(query);
   return result.recordsets;
 };
+
+exports.deleteFlightByApId = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      FlightSchema.schema.airportID.name,
+      FlightSchema.schema.airportID.sqlType,
+      id
+    )
+    .query(
+      `delete ${FlightSchema.schemaName} where ${FlightSchema.schema.airportID.name} = @${FlightSchema.schema.airportID.name}`
+    );
+
+  return result.recordsets;
+};

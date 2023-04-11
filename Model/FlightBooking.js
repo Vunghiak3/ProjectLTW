@@ -20,6 +20,10 @@ const FlightBookingSchema = new ModelSchema(
       name: "SeatId",
       sqlType: sql.Int,
     }),
+    Status: new ModelSchemaValidator({
+      name: "Status",
+      sqlType: sql.VarChar,
+    }),
     createAt: new ModelSchemaValidator({
       name: "createAt",
       sqlType: sql.DateTime,

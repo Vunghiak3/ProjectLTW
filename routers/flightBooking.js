@@ -6,13 +6,46 @@ const authController = require("./../controllers/auth");
 
 router
   .route("/")
-  .get(authController.protect, flightBookingController.getAllBooking)
-  .post(authController.protect, flightBookingController.createBooking);
+  .get(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    flightBookingController.getAllBooking
+  );
 
 router
   .route("/:id")
-  .get(authController.protect, flightBookingController.getBookingById)
-  .patch(authController.protect, flightBookingController.updateBooking)
-  .delete(authController.protect, flightBookingController.deleteBooking);
-
+  .get(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    flightBookingController.getBookingById
+  )
+  .patch(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    flightBookingController.updateBooking
+  )
+  .delete(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    flightBookingController.deleteBooking
+  );
+router
+  .route("/user/booking")
+  .get(authController.protect, flightBookingController.getBookingByUserID)
+  .post(authController.protect, flightBookingController.createBooking);
+router
+  .route("/user/booking/:id")
+  .patch(authController.protect, flightBookingController.CancelBooking);
 module.exports = router;

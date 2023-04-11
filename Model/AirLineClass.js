@@ -21,7 +21,7 @@ const AirLineClassSchema = new ModelSchema(
       sqlType: sql.DateTime,
     }),
   },
-  "HOTELS",
+  "AIRLINECLASS",
   "createAt"
 );
 

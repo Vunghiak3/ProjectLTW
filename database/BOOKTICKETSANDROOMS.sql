@@ -13,10 +13,6 @@ CREATE TABLE ROLES(
 
 GO
 
-INSERT INTO ROLES(Name) VALUES('user'),('hotelmanager'),('flightmanager'),('admin')
-
-GO
-
 CREATE TABLE USERS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	Username VARCHAR(50) NOT NULL UNIQUE,
@@ -65,15 +61,13 @@ CREATE TABLE AIRPORTS(
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 )
 GO
-Insert into Airports (name, address,phonenumber) values('VietJet', 'VN', '0000')
 
 CREATE TABLE AIRLINECLASS(
 	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Name NVARCHAR(30) CHECK(NAME = 'Phổ thông' OR NAME = 'Phổ thông đặc biệt' OR NAME = 'Thượng gia'  OR NAME = 'Hạng nhất') NOT NULL, -- Hạng ghế
+	Name NVARCHAR(30) NOT NULL, -- Hạng ghế
 	Price FLOAT NOT NULL, -- Giá ghế
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 )
-
 GO
 
 CREATE TABLE FLIGHTS(
@@ -85,13 +79,8 @@ CREATE TABLE FLIGHTS(
 	EmptySeat INT NOT NULL, -- Số lượng ghế trống 
 	AirportId INT CONSTRAINT FK_FLIGHTS_AIRPORTS FOREIGN KEY (AirportId) REFERENCES AIRPORTS(Id),
 	CreateAt DATETIME  NOT NULL/*DEFAULT CURRENT_TIMESTAMP*/,
-)
-delete from FLIGHTS
-select Id, name from FLIGHTS
-Insert into FLIGHTS(Name,FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('Air-001','BMT','HCM','2023-05-23',201,1,'2020-05-22'),
-																										('Air-002','HCM','HN','2023-05-23',201,1,'2020-05-22')
+)																								
 GO
-ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
 
 CREATE TABLE SEATS(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
@@ -101,9 +90,6 @@ CREATE TABLE SEATS(
 	FlightId INT  FOREIGN KEY (FlightId) REFERENCES FLIGHTS(Id) NOT NULL,
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
 )
-SELECT * FROM FLIGHTS
-INSERT INTO SEATS (name,AirlineClassId,Status,FlightId) VALUES ('A-001','2','TRUE','1')
-ALTER TABLE SEATS ADD
 GO
 
 CREATE TABLE BOOKINGROOMS(
@@ -119,7 +105,6 @@ CREATE TABLE BOOKINGROOMS(
 	CheckOutDate DATE NULL,
 	Status NVARCHAR(50) NOT NULL, 
 )
-
 GO
 
 CREATE TABLE BOOKINGFLIGHTS(
@@ -127,21 +112,10 @@ CREATE TABLE BOOKINGFLIGHTS(
 	UserId INT CONSTRAINT FK_BOOKINGFLIGHTS_USERS FOREIGN KEY (USERID) REFERENCES USERS(ID) NOT NULL,
 	FlightId INT FOREIGN KEY (FlightId) REFERENCES FLIGHTS(Id) NOT NULL,
 	SeatId INT CONSTRAINT FK_BOOKINGFLIGHTS_SEATS FOREIGN KEY (SeatId) REFERENCES SEATS(Id) NOT NULL,
+	Status NVARCHAR(50) NOT NULL,
 	CreateAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, 
 )
-
 GO
-select * from BOOKINGFLIGHTS
-select * from SEATS
-select * from AIRLINECLASS
-
-SELECT bf.*, ac.name, ap.name
-FROM BOOKINGFLIGHTS bf
-JOIN SEATS s ON bf.SeatId = s.id
-JOIN AIRLINECLASS ac ON s.AirlineClassId = ac.id
-JOIN FLIGHTS f ON bf.FlightId = f.id
-JOIN AIRPORTS ap ON f.AirportId = ap.id
-WHERE bf.Id = '13'
 
 
 --AUTO UPDATE SEATS
@@ -153,14 +127,22 @@ BEGIN
 	JOIN inserted ON FLIGHTS.Id = inserted.FlightId
 END;
 GO
-
 --AUTO UPDATE SEATS STATUS 
 CREATE TRIGGER seatStatus ON BOOKINGFLIGHTS AFTER INSERT AS
 BEGIN
 	UPDATE SEATS
 	SET Status = 'FALSE'
 	FROM SEATS
-	JOIN inserted ON SEATS.FlightId = inserted.FlightId
+	JOIN inserted ON SEATS.id = inserted.SeatId
+END;
+GO
+CREATE TRIGGER seatStatusUpdate ON BOOKINGFLIGHTS AFTER UPDATE AS
+BEGIN
+	UPDATE SEATS
+	SET Status = 'TRUE'
+	FROM SEATS
+	JOIN BOOKINGFLIGHTS ON SEATS.id = BOOKINGFLIGHTS.SeatId
+	WHERE BOOKINGFLIGHTS.Status = 'Cancel'
 END;
 GO
 
@@ -223,6 +205,50 @@ END;
 USE MASTER
 DROP DATABASE Booking*/
 
+/*
+select * from FLIGHTS
+update SEATS set Status = 'TRUE'
+SELECT * FROM SEATS WHERE Status = 'TRUE' AND Id = 4
+*/
+
 drop database BookingTicketsAndRooms
 
 use master
+
+select * from BOOKINGFLIGHTS where UserId = 1
+select * from SEATS
+select * from AIRLINECLASS
+
+SELECT bf.*, ac.name, ap.name
+FROM BOOKINGFLIGHTS bf
+JOIN SEATS s ON bf.SeatId = s.id
+JOIN AIRLINECLASS ac ON s.AirlineClassId = ac.id
+JOIN FLIGHTS f ON bf.FlightId = f.id
+JOIN AIRPORTS ap ON f.AirportId = ap.id
+WHERE bf.UserId = 1
+
+
+INSERT INTO SEATS (name,AirlineClassId,Status,FlightId) VALUES ('A-001','2','TRUE','1')
+ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
+delete from FLIGHTS
+
+Insert into FLIGHTS(Name,FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('Air-001','BMT','HCM','2023-05-23',201,1,'2020-05-22'),
+('Air-002','HCM','HN','2023-05-23',201,1,'2020-05-22')
+INSERT INTO ROLES(Name) VALUES('user'),('hotelmanager'),('flightmanager'),('admin')
+Insert into Airports (name, address,phonenumber) values('VietJet', 'VN', '0000')
+
+if EXISTS( select * from SEATS WHERE Id = 15 and Status = 'TRUE')
+print('ok')
+
+SELECT * FROM FLIGHTS
+select Id, name from FLIGHTS
+SELECT * FROM BOOKINGFLIGHTS
+
+select * From SEATS where AirlineClassId = 2
+DELETE From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
+SELECT * FROM AIRLINECLASS
+
+--check booking
+Select * From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
+--check seat
+select * From SEATS where AirlineClassId = 2

@@ -151,3 +151,57 @@ exports.updateSeatById = async (id, updateInfo) => {
   let result = await request.query(query);
   return result.recordsets;
 };
+
+exports.checkingSeats = async (id) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!id) {
+    throw new Error("Invalid input param!");
+  }
+  let request = dbConfig.db.pool.request();
+  let status = "FALSE";
+  let result = await request
+    .input(SeatSchema.schema.id.name, SeatSchema.schema.id.sqlType, id)
+    .query(
+      `SELECT * FROM ${SeatSchema.schemaName} WHERE ${SeatSchema.schema.id.name} = ${id} AND ${SeatSchema.schema.Status.name} = '${status}'`
+    );
+  return result.recordsets[0][0];
+};
+
+exports.deleteByClassId = async (AirlineClassId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      SeatSchema.schema.AirlineClassId.name,
+      SeatSchema.schema.AirlineClassId.sqlType,
+      AirlineClassId
+    )
+    .query(
+      `delete ${SeatSchema.schemaName} where ${SeatSchema.schema.AirlineClassId.name} = @${SeatSchema.schema.AirlineClassId.name}`
+    );
+  return result.recordsets;
+};
+
+exports.checkingSeatsByClass = async (AirlineClassId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!AirlineClassId) {
+    throw new Error("Invalid input param!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      SeatSchema.schema.AirlineClassId.name,
+      SeatSchema.schema.AirlineClassId.sqlType,
+      AirlineClassId
+    )
+    .query(
+      `SELECT * FROM ${SeatSchema.schemaName} WHERE ${SeatSchema.schema.AirlineClassId.name} = @${SeatSchema.schema.AirlineClassId.name}`
+    );
+  return result.recordsets[0][0];
+};

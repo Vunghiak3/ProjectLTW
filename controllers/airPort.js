@@ -73,7 +73,7 @@ exports.createAirPort = async (req, res) => {
 exports.deleteAirPort = async (req, res) => {
   try {
     const id = req.params.id * 1;
-    await FlightDAO.deleteFlightById(id);
+    await FlightDAO.deleteFlightByApId(id);
     await AirPortDAO.deleteAirPortById(id);
     return res.status(200).json({
       code: 200,
@@ -86,7 +86,7 @@ exports.deleteAirPort = async (req, res) => {
       msg: e.toString(),
     });
   }
-}; // test when delete flight complete
+};
 
 exports.updateAirPort = async (req, res) => {
   try {

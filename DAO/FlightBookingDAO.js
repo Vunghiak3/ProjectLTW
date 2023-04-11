@@ -6,6 +6,9 @@ const FlightBookingSchema = require("../model/FlightBooking");
 const FlightSchema = require("../model/Flights");
 const SeatSchema = require("../model/Seat");
 const AirPortSchema = require("../model/airPort");
+const ClassSchema = require("../model/AirLineClass");
+
+const e = require("express");
 exports.getAllBooking = async (filter) => {
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
@@ -64,14 +67,39 @@ exports.getBookingByID = async function (id) {
       id
     )
     .query(
-      `SELECT bf.*, ap.name
+      `SELECT bf.*, ac.name, ap.name
       FROM ${FlightBookingSchema.schemaName} bf
       JOIN ${SeatSchema.schemaName} s ON bf.${FlightBookingSchema.schema.SeatId.name} = s.id
+      JOIN ${ClassSchema.schemaName} ac ON s.${SeatSchema.schema.AirlineClassId.name} = ac.${ClassSchema.schema.id.name}
       JOIN ${FlightSchema.schemaName} f ON bf.${FlightBookingSchema.schema.FlightId.name} = f.id
       JOIN  ${AirPortSchema.schemaName} ap ON f.${FlightSchema.schema.airportID.name} = ap.id
-      WHERE bf.Id = @${FlightBookingSchema.schema.id.name}`
+      WHERE bf.${FlightBookingSchema.schema.id.name} = @${FlightBookingSchema.schema.id.name}`
     );
   let booking = result.recordsets[0][0];
+  return booking;
+};
+
+exports.getBookingByUserID = async function (id) {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(
+      FlightBookingSchema.schema.UserId.name,
+      FlightBookingSchema.schema.UserId.sqlType,
+      id
+    )
+    .query(
+      `SELECT bf.*, ac.name, ap.name
+      FROM ${FlightBookingSchema.schemaName} bf
+      JOIN ${SeatSchema.schemaName} s ON bf.${FlightBookingSchema.schema.SeatId.name} = s.${SeatSchema.schema.id.name}
+      JOIN ${ClassSchema.schemaName} ac ON s.${SeatSchema.schema.AirlineClassId.name} = ac.${ClassSchema.schema.id.name}
+      JOIN ${FlightSchema.schemaName} f ON bf.${FlightBookingSchema.schema.FlightId.name} = f.${FlightSchema.schema.id.name}
+      JOIN  ${AirPortSchema.schemaName} ap ON f.${FlightSchema.schema.airportID.name} = ap.${AirPortSchema.schema.id.name}
+      WHERE bf.${FlightBookingSchema.schema.UserId.name} = @${FlightBookingSchema.schema.UserId.name}`
+    );
+  let booking = result.recordsets;
   return booking;
 };
 
@@ -102,6 +130,7 @@ exports.createBooking = async (booking) => {
   let now = new Date();
   booking.createAt = now.toISOString();
   let insertData = FlightBookingSchema.validateData(booking);
+
   let query = `INSERT INTO ${FlightBookingSchema.schemaName}`;
   const { request, insertFieldNamesStr, insertValuesStr } =
     dbUtils.getInsertQuery(
@@ -109,8 +138,10 @@ exports.createBooking = async (booking) => {
       dbConfig.db.pool.request(),
       insertData
     );
+
   query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
+
   return result.recordsets;
 };
 
@@ -195,4 +226,77 @@ exports.updateBookingById = async (id, updateInfo) => {
     ` WHERE ${FlightBookingSchema.schema.id.name} = @${FlightBookingSchema.schema.id.name}`;
   let result = await request.query(query);
   return result.recordsets;
+};
+
+exports.CancelBooking = async (id, updateInfo, userId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!updateInfo) {
+    throw new Error("Invalid input param!");
+  }
+  let query = `UPDATE ${FlightBookingSchema.schemaName} SET`;
+  const { request, updateStr } = dbUtils.getUpdateQuery(
+    FlightBookingSchema.schema,
+    dbConfig.db.pool.request(),
+    updateInfo
+  );
+  if (!updateStr) {
+    throw new Error("Invalid update param!");
+  }
+  request.input(
+    FlightBookingSchema.schema.id.name,
+    FlightBookingSchema.schema.id.sqlType,
+    id
+  );
+  request.input(
+    FlightBookingSchema.schema.UserId.name,
+    FlightBookingSchema.schema.UserId.sqlType,
+    userId
+  );
+  query +=
+    " " +
+    updateStr +
+    ` WHERE ${FlightBookingSchema.schema.id.name} = @${FlightBookingSchema.schema.id.name} 
+      AND ${FlightBookingSchema.schema.UserId.name} = @${FlightBookingSchema.schema.UserId.name}`;
+  let result = await request.query(query);
+  return result.recordsets;
+};
+
+exports.deleteByClassId = async (AirlineClassId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      SeatSchema.schema.AirlineClassId.name,
+      SeatSchema.schema.AirlineClassId.sqlType,
+      AirlineClassId
+    )
+    .query(
+      `delete ${FlightBookingSchema.schemaName} where ${FlightBookingSchema.schema.SeatId.name} IN (Select ${SeatSchema.schema.id.name} from ${SeatSchema.schemaName} where  ${SeatSchema.schema.AirlineClassId.name} = @${SeatSchema.schema.AirlineClassId.name})`
+    );
+
+  return result.recordsets;
+};
+
+exports.checkingBookingByClass = async (AirlineClassId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!AirlineClassId) {
+    throw new Error("Invalid input param!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request
+    .input(
+      SeatSchema.schema.AirlineClassId.name,
+      SeatSchema.schema.AirlineClassId.sqlType,
+      AirlineClassId
+    )
+    .query(
+      `SELECT * FROM ${FlightBookingSchema.schemaName} where ${FlightBookingSchema.schema.SeatId.name} IN (Select ${SeatSchema.schema.id.name} from ${SeatSchema.schemaName} where  ${SeatSchema.schema.AirlineClassId.name} = @${SeatSchema.schema.AirlineClassId.name})`
+    );
+  return result.recordsets[0][0];
 };
