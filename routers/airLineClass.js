@@ -33,11 +33,11 @@ router
     ClassController.updateClass
   )
   .delete(
-    // authController.protect,
-    // authController.restricTo(
-    //   StaticData.AUTH.Role.admin,
-    //   StaticData.AUTH.Role.flightManager
-    // ),
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
     ClassController.deleteClass
   );
 module.exports = router;
