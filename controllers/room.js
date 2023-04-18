@@ -70,7 +70,7 @@ exports.createRoomHandler = async (req, res) => {
     const room = await RoomDAO.getRoomByCreateAt(newRoom.createAt);
     let result = {
       code: 200,
-      msg: "Create new hotel successfully!",
+      msg: "Create new room successfully!",
       data: {
         room,
       },

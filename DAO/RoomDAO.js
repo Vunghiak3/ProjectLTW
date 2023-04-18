@@ -233,7 +233,6 @@ exports.findRooms = async (info) => {
       BookingRoomSchema.schema.checkindate.sqlType,
       checkindate
     );
-    // from += `, ${BookingRoomSchema.schemaName}`;
     where += ` AND NOT EXISTS(SELECT * FROM ${BookingRoomSchema.schemaName} WHERE ${RoomSchema.schemaName}.${RoomSchema.schema.id.name} = ${BookingRoomSchema.schema.roomid.name} AND ${RoomSchema.schemaName}.${RoomSchema.schema.hotelid.name} = ${BookingRoomSchema.schemaName}.${BookingRoomSchema.schema.hotelid.name} AND ${BookingRoomSchema.schema.checkoutdate.name} >= @${BookingRoomSchema.schema.checkindate.name})`;
   }
 

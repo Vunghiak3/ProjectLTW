@@ -195,7 +195,6 @@ exports.checkBookRoomByUserId = async (req, res, next, id) => {
   let token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   const userId = decodedToken.id;
-  console.log("🚀 ~ file: bookingroom.js:13 ~ router.param ~ userId:", userId);
   req.query.userid = userId;
   next();
 };
