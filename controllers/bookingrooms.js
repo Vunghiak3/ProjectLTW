@@ -138,23 +138,30 @@ exports.bookRoomHandler = async (req, res) => {
 };
 
 exports.cancelRoomHandler = async (req, res) => {
+  const info = req.body;
+  let token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.id;
+  info.userid = userId;
   try {
     const id = req.params.id * 1;
     req.body.status = "cancelled";
     const updateInfo = req.body;
     let bookRoom = await BookingRoomDAO.getBookRoomById(id);
-    if (bookRoom.Status === "pending") {
-      await BookingRoomDAO.updateBookRoom(id, updateInfo);
-      bookRoom = await BookingRoomDAO.getBookRoomById(id);
-      return res.status(200).json({
-        code: 200,
-        msg: `Successful cancellation!`,
-        data: {
-          bookRoom,
-        },
-      });
-    } else {
-      throw new Error("Can not cancel the room!");
+    if (bookRoom.UserId === info.userid) {
+      if (bookRoom.Status === "pending") {
+        await BookingRoomDAO.updateBookRoom(id, updateInfo);
+        bookRoom = await BookingRoomDAO.getBookRoomById(id);
+        return res.status(200).json({
+          code: 200,
+          msg: `Successful cancellation!`,
+          data: {
+            bookRoom,
+          },
+        });
+      } else {
+        throw new Error("Can not cancel the room!");
+      }
     }
   } catch (e) {
     console.error(e);
@@ -163,38 +170,4 @@ exports.cancelRoomHandler = async (req, res) => {
       msg: e.toString(),
     });
   }
-};
-
-exports.getAllBookingRoomsOfUserLoginHandler = async (req, res) => {
-  try {
-    const { page, pageSize, totalPage, totalItem, bookingrooms } =
-      await BookingRoomDAO.getAllBookRoom(req.query);
-    return res.status(200).json({
-      code: 200,
-      msg: "OK",
-      page,
-      pageSize,
-      totalPage,
-      totalItem,
-      data: {
-        bookingrooms,
-      },
-    });
-  } catch (e) {
-    console.error(e);
-    res
-      .status(500) // 500 - Internal Error
-      .json({
-        code: 500,
-        msg: e.toString(),
-      });
-  }
-};
-
-exports.checkBookRoomByUserId = async (req, res, next, id) => {
-  let token = req.headers.authorization.split(" ")[1];
-  const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  const userId = decodedToken.id;
-  req.query.userid = userId;
-  next();
 };

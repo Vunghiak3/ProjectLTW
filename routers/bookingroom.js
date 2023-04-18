@@ -6,8 +6,6 @@ const StaticData = require("./../utils/StaticData");
 
 router.param("id", bookingroomController.checkBookRoomById);
 
-router.param("userid", bookingroomController.checkBookRoomByUserId);
-
 router
   .route("/room")
   .post(authController.protect, bookingroomController.bookRoomHandler);
@@ -44,21 +42,7 @@ router
   );
 
 router
-  .route("/:userid/all")
-  .get(
-    authController.protect,
-    bookingroomController.getAllBookingRoomsOfUserLoginHandler
-  );
-
-router
   .route("/")
-  .get(
-    authController.protect,
-    authController.restricTo(
-      StaticData.AUTH.Role.admin,
-      StaticData.AUTH.Role.hotelManager
-    ),
-    bookingroomController.getAllBookingRoomsHandler
-  );
+  .get(authController.protect, bookingroomController.getAllBookingRoomsHandler);
 
 module.exports = router;
