@@ -33,4 +33,22 @@ router
     ),
     seatController.updateSeat
   );
+router
+  .route("/all/:id")
+  .post(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    seatController.createAllSeat
+  )
+  .delete(
+    authController.protect,
+    authController.restricTo(
+      StaticData.AUTH.Role.admin,
+      StaticData.AUTH.Role.flightManager
+    ),
+    seatController.deleteAllByFlightId
+  );
 module.exports = router;

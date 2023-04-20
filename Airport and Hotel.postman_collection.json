@@ -1,11 +1,253 @@
 {
 	"info": {
-		"_postman_id": "9ee194ff-f471-409f-9673-9774291f1172",
+		"_postman_id": "dc41e875-1f0d-4461-902f-4c338b4e7342",
 		"name": "Airport and Hotel",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26010500"
+		"_exporter_id": "25986516"
 	},
 	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"vunghiak3\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"VuTienNghia\",\r\n    \"email\": \"vunghiak3@gmail.com\",\r\n    \"phonenumber\": \"0912832983\",\r\n    \"birthday\": \"12/3/2001\",\r\n    \"roleid\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user by id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roleid\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"vunghiak3\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"vunghiak4\",\r\n    \"password\": \"12345678\",\r\n    \"repeatPassword\": \"12345678\",\r\n    \"name\": \"VuTienNghia\",\r\n    \"email\": \"vunghiak4@gmail.com\",\r\n    \"phonenumber\": \"0934834343\",\r\n    \"birthday\": \"1/1/2003\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all user advanced",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users?roleid=4&page=1&pageSize=5&sort=name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "DDDD",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "DDDD@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "roleid",
+									"value": "4"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Airports",
 			"item": [
@@ -13,16 +255,25 @@
 					"name": "getAllAirports",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNzkzODM2LCJleHAiOjE2ODA4MTU0MzZ9.tT6N_Cnm5gjBkqgZ-nwpc_w0EnZ6KrnvW5RgqRRX5s8",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/airports",
+							"raw": "http://localhost:8080/api/v1/airports/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"airports"
+								"api",
+								"v1",
+								"airports",
+								""
 							]
 						}
 					},
@@ -32,17 +283,32 @@
 					"name": "getAirportById",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTI1MzM4LCJleHAiOjE2ODA1NDY5Mzh9.rnY_YWHucL8jMJREq6v7mY7iJ7DgKK7zam0b2sTBF9g",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/airports/9",
+							"raw": "http://localhost:8080/api/v1/airports/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"airports",
-								"9"
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -52,10 +318,16 @@
 					"name": "createAirportById",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTI1MzM4LCJleHAiOjE2ODA1NDY5Mzh9.rnY_YWHucL8jMJREq6v7mY7iJ7DgKK7zam0b2sTBF9g",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Name\": \"fasdfasdf\",\r\n    \"Address\": \"asdf\",\r\n    \"PhoneNumber\": \"098378473\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Viet Nam AirLine\",\r\n    \"address\": \"VN\",\r\n    \"phoneNumber\": \"098378473\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -63,14 +335,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airports",
+							"raw": "http://localhost:8080/api/v1/airports/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"airports"
+								"api",
+								"v1",
+								"airports",
+								""
 							]
 						}
 					},
@@ -80,17 +355,32 @@
 					"name": "deleteAirportById",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTI1MzM4LCJleHAiOjE2ODA1NDY5Mzh9.rnY_YWHucL8jMJREq6v7mY7iJ7DgKK7zam0b2sTBF9g",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/airports/4",
+							"raw": "http://localhost:8080/api/v1/airports/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"airports",
-								"4"
+								"2"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -100,10 +390,16 @@
 					"name": "updateAirportByid",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTI1MzM4LCJleHAiOjE2ODA1NDY5Mzh9.rnY_YWHucL8jMJREq6v7mY7iJ7DgKK7zam0b2sTBF9g",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Name\": \"LAKSJLKDJA\"\r\n}",
+							"raw": "{\r\n    \"name\": \"VN AirLine\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -111,15 +407,764 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airports/9",
+							"raw": "http://localhost:8080/api/v1/airports/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
+								"v1",
 								"airports",
-								"9"
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flights",
+			"item": [
+				{
+					"name": "GetAllFlight",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxMDE5ODE1LCJleHAiOjE2ODEwNDE0MTV9.EZwtToUSy-xNV2PZFJv2tBZMCqiuFnK5r1Z28Iv3BXI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "emptySeat[gte]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "fromLocation",
+									"value": "HCM",
+									"disabled": true
+								},
+								{
+									"key": "toLocation",
+									"value": "HN",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFlightById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTI1MzM4LCJleHAiOjE2ODA1NDY5Mzh9.rnY_YWHucL8jMJREq6v7mY7iJ7DgKK7zam0b2sTBF9g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/27",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								"27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createFlight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwODQyMTA1LCJleHAiOjE2ODA4NjM3MDV9.4s-aiFfWTLwhnYy6fhCw9i9ytoxLR06ut78GC-EqUN0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Air - 717\",\r\n    \"fromLocation\": \"Ha Noi\",\r\n    \"toLocation\": \"Ho Chi Minh\",\r\n    \"dateOfDepartment\": \"2023-05-20\",\r\n    \"emptySeat\": 201,\r\n    \"airportID\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateFlight",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fromLocation\": \"Ha Noi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/32",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								"32"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFlight",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNzkzODM2LCJleHAiOjE2ODA4MTU0MzZ9.tT6N_Cnm5gjBkqgZ-nwpc_w0EnZ6KrnvW5RgqRRX5s8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flight/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flight",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Seats",
+			"item": [
+				{
+					"name": "GetAllSeats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxMTQ0OTA0LCJleHAiOjE2ODExNjY1MDR9.Oxd2vUX9azDA7-ZffQHBJLiIScYdJUUKF-vQ8R9Zzik",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/seat/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"seat",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "FlightId",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSeatsById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNzkzODM2LCJleHAiOjE2ODA4MTU0MzZ9.tT6N_Cnm5gjBkqgZ-nwpc_w0EnZ6KrnvW5RgqRRX5s8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/seat/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"seat",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddSeat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNjg2MjQ5LCJleHAiOjE2ODA3MDc4NDl9.uymkeGjNsB45t5SEtYeNW2Bcc26QtNMZhM8CUbPTCy8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"AirlineClassId\": 3,\r\n    \"Status\": \"TRUE\",\r\n    \"FlightId\": 2,\r\n    \"AirportId\": 2,\r\n    \"name\": \"A-003\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/seat/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"seat",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSeats",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNTM4OTU0LCJleHAiOjE2ODA1NjA1NTR9.whuium53gkLYXofrINgzknuEp_u0zs9bYGvXml9wgis",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"A03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/seat/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"seat",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSeat",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNzkzODM2LCJleHAiOjE2ODA4MTU0MzZ9.tT6N_Cnm5gjBkqgZ-nwpc_w0EnZ6KrnvW5RgqRRX5s8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/seat/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"seat",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FlightBooking",
+			"item": [
+				{
+					"name": "GetAllBooking",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxMDE5ODE1LCJleHAiOjE2ODEwNDE0MTV9.EZwtToUSy-xNV2PZFJv2tBZMCqiuFnK5r1Z28Iv3BXI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "Status",
+									"value": "Pending",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBookingById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateBooking",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwODgxOTIzLCJleHAiOjE2ODA5MDM1MjN9.Fom3EJ3bW_6WFrVG91680HASbuJDbCJsC0ylGmYVq1U",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"Status\":\"Approve\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBooking",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwNzkzODM2LCJleHAiOjE2ODA4MTU0MzZ9.tT6N_Cnm5gjBkqgZ-nwpc_w0EnZ6KrnvW5RgqRRX5s8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"3"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBookingByUserID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/user/booking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"user",
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateBooking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxMTQ0OTA0LCJleHAiOjE2ODExNjY1MDR9.Oxd2vUX9azDA7-ZffQHBJLiIScYdJUUKF-vQ8R9Zzik",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"FlightId\":2,\r\n \"SeatId\":5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/user/booking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"user",
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel booking",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxMDQ0MTA5LCJleHAiOjE2ODEwNjU3MDl9.ScbaHl0jfzs65M-4KQzWYg76A9zo-OO5fCRZaBhsyP8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/flightBooking/user/booking/25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"flightBooking",
+								"user",
+								"booking",
+								"25"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AirLine Class",
+			"item": [
+				{
+					"name": "getAllClass",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/class/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"class",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createClass",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Phổ thông đặc biệt\",\r\n    \"price\": 1500000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/class/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"class",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editClass",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 900000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/class/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"class",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteClass",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgwOTAzNjM2LCJleHAiOjE2ODA5MjUyMzZ9.n-fTXg8n15mvH3WJ_UdZA1n9pIFuSsuSpwbqge6sHs4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/class/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"class",
+								"10"
 							]
 						}
 					},
@@ -134,7 +1179,13 @@
 					"name": "get all hotels",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA1MjYyNjgsImV4cCI6MTY4MDU0Nzg2OH0.emqKANEnq6u22tXf2Po5nraug5Te9adXJMokW2N1Vd8",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/api/v1/hotels",
 							"protocol": "http",
@@ -155,10 +1206,16 @@
 					"name": "create hotel",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA0MTQyNzEsImV4cCI6MTY4MDQzNTg3MX0.BkxatKjZxFX2vI5dpG3xr8TUylC_R00G3SeYT8buzfs",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Hotel 100\",\r\n    \"phonenumber\": \"098983923200\",\r\n    \"email\": \"Hotel2@gmail.com\",\r\n    \"address\": \"HN\",\r\n    \"city\": \"HN\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Hotel 2\",\r\n    \"phonenumber\": \"098983923200\",\r\n    \"email\": \"Hotel2@gmail.com\",\r\n    \"address\": \"HCM\",\r\n    \"city\": \"HCM\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -185,7 +1242,78 @@
 					"name": "get hotel by id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODAzNzMyNTksImV4cCI6MTY4MDM5NDg1OX0.De93Qy6oUTA3lsgh6X_fcwqpKY7_QpC1W68trYWU9mA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete hotel by id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODAzNzMyNTksImV4cCI6MTY4MDM5NDg1OX0.De93Qy6oUTA3lsgh6X_fcwqpKY7_QpC1W68trYWU9mA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/hotels/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"hotels",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update hotel by id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA0MTQyNzEsImV4cCI6MTY4MDQzNTg3MX0.BkxatKjZxFX2vI5dpG3xr8TUylC_R00G3SeYT8buzfs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Hotel 1\",\r\n    \"email\": \"hotel1@gmail.com\",\r\n    \"address\": \"HN\",\r\n    \"city\": \"HN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:8080/api/v1/hotels/1",
 							"protocol": "http",
@@ -204,43 +1332,18 @@
 					"response": []
 				},
 				{
-					"name": "delete hotel by id",
+					"name": "get all hotels advanced",
 					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/hotels/10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"hotels",
-								"10"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update hotel by id",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"hotel 4\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODAzNzMyNTksImV4cCI6MTY4MDM5NDg1OX0.De93Qy6oUTA3lsgh6X_fcwqpKY7_QpC1W68trYWU9mA",
+								"type": "text"
 							}
-						},
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/hotels/10",
+							"raw": "http://localhost:8080/api/v1/hotels?address=HN&emtyrooms[lt]=1&sort=id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -249,8 +1352,21 @@
 							"path": [
 								"api",
 								"v1",
-								"hotels",
-								"10"
+								"hotels"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "HN"
+								},
+								{
+									"key": "emtyrooms[lt]",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "id"
+								}
 							]
 						}
 					},
@@ -265,7 +1381,13 @@
 					"name": "Get all rooms",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/api/v1/rooms",
 							"protocol": "http",
@@ -277,6 +1399,18 @@
 								"api",
 								"v1",
 								"rooms"
+							],
+							"query": [
+								{
+									"key": "price[eq]",
+									"value": "200",
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": "HN",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -286,9 +1420,15 @@
 					"name": "Get room by id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODAzNzMyNTksImV4cCI6MTY4MDM5NDg1OX0.De93Qy6oUTA3lsgh6X_fcwqpKY7_QpC1W68trYWU9mA",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/rooms/11",
+							"raw": "http://localhost:8080/api/v1/rooms/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -298,7 +1438,7 @@
 								"api",
 								"v1",
 								"rooms",
-								"11"
+								"2"
 							]
 						}
 					},
@@ -308,10 +1448,16 @@
 					"name": "create new room",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3MDk5NDIsImV4cCI6MTY4MDczMTU0Mn0.bisLEnh839We8o4XVL-N8G3OWji6IXbSfG7LfSPhSeY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"5\",\r\n    \"price\": 5,\r\n    \"hotelid\": 2,\r\n    \"status\": \"TRUE\"\r\n}",
+							"raw": "{\r\n    \"name\": \"P3\",\r\n    \"price\": 200,\r\n    \"hotelid\": 1,\r\n    \"status\": \"TRUE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -338,9 +1484,15 @@
 					"name": "delete room by id",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODAzNzMyNTksImV4cCI6MTY4MDM5NDg1OX0.De93Qy6oUTA3lsgh6X_fcwqpKY7_QpC1W68trYWU9mA",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/rooms/9",
+							"raw": "http://localhost:8080/api/v1/rooms/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -350,7 +1502,7 @@
 								"api",
 								"v1",
 								"rooms",
-								"9"
+								"5"
 							]
 						}
 					},
@@ -360,10 +1512,16 @@
 					"name": "update room by id",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3MDk5NDIsImV4cCI6MTY4MDczMTU0Mn0.bisLEnh839We8o4XVL-N8G3OWji6IXbSfG7LfSPhSeY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"4\",\r\n    \"price\": 4\r\n}",
+							"raw": "{\r\n    \"status\": \"TRUE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -371,7 +1529,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/rooms/11",
+							"raw": "http://localhost:8080/api/v1/rooms/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -381,41 +1539,19 @@
 								"api",
 								"v1",
 								"rooms",
-								"11"
+								"4"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Flights",
-			"item": [
-				{
-					"name": "DeleteFlight",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
 				},
 				{
-					"name": "UpdateFlight",
+					"name": "Get all rooms advanced",
 					"request": {
-						"method": "PATCH",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"fromLocation\": \"Ha Noi\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/flight/11",
+							"raw": "http://localhost:8080/api/v1/rooms?address=HN&price[eq]=5&sort=id,price",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -424,45 +1560,49 @@
 							"path": [
 								"api",
 								"v1",
-								"flight",
-								"11"
+								"rooms"
+							],
+							"query": [
+								{
+									"key": "address",
+									"value": "HN"
+								},
+								{
+									"key": "price[eq]",
+									"value": "5"
+								},
+								{
+									"key": "price[lt]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "id,price"
+								}
 							]
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
 				{
-					"name": "GetFlightById",
+					"name": "get all booking rooms",
 					"request": {
 						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "GetAllFlight",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "createFlight",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"fromLocation\": \"Ha Noi\",\r\n    \"toLocation\": \"Buon Ma Thuot\",\r\n    \"dateOfDepartment\": \"2023-05-20\",\r\n    \"emptySeat\": 201,\r\n    \"airportID\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
 							}
-						},
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/flight/",
+							"raw": "http://localhost:8080/api/v1/booking?status=pending",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -471,8 +1611,143 @@
 							"path": [
 								"api",
 								"v1",
-								"flight",
-								""
+								"booking"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create booking room",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3NjMwMjUsImV4cCI6MTY4MDc4NDYyNX0.TaLXu70PE6vbEK0gY0s7Ry6iQvfODAXlVlRyXXkUSDI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roomid\": 1,\r\n    \"checkindate\": \"4/10/2023\",\r\n    \"numberday\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete booking room",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3ODYyNTcsImV4cCI6MTY4MDgwNzg1N30.raKwFZuHq2RXNKDdC32sHmolTNVT9ph8nDSODIWh6CY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update booking room",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get booking room by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"33"
 							]
 						}
 					},
@@ -481,196 +1756,242 @@
 			]
 		},
 		{
-			"name": "Seats",
+			"name": "hotel manager confirmed",
 			"item": [
 				{
-					"name": "GetAllSeats",
+					"name": "get all booking advanced",
 					"request": {
 						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "GetSeatsById",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "AddSeat",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3ODYyNTcsImV4cCI6MTY4MDgwNzg1N30.raKwFZuHq2RXNKDdC32sHmolTNVT9ph8nDSODIWh6CY",
+								"type": "text"
 							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking?status=confirmed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "confirmed"
+								},
+								{
+									"key": "status",
+									"value": "cancelled",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "completed",
+									"disabled": true
+								}
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "UpdateSeats",
+					"name": "edit booking room(update status)",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA3ODYyNTcsImV4cCI6MTY4MDgwNzg1N30.raKwFZuHq2RXNKDdC32sHmolTNVT9ph8nDSODIWh6CY",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"status\": \"confirmed\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"30"
+							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteSeat",
-					"request": {
-						"method": "DELETE",
-						"header": []
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "FlightBooking",
+			"name": "user booking room",
 			"item": [
 				{
-					"name": "GetAllBooking",
+					"name": "find room",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "GetBookingById",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "CreateBooking",
-					"request": {
-						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/rooms/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"rooms",
+								"search"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "checkindate",
+									"value": "5/7/2023",
+									"disabled": true
+								},
+								{
+									"key": "numberday",
+									"value": "2",
+									"disabled": true
 								}
-							}
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "UpdateBooking",
+					"name": "book room",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roomid\": 1,\r\n    \"checkindate\": \"6/20/2023\",\r\n    \"numberday\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/room",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel room",
 					"request": {
 						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA4ODIxMzksImV4cCI6MTY4MDkwMzczOX0.dRHZE0ZzdXIr89utPBxpp9Vh-BHEtnICEKnjEyMSWAI",
+								"type": "text"
 							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/room/31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"room",
+								"31"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "DeleteBooking",
-					"request": {
-						"method": "DELETE",
-						"header": []
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "SignUp",
-					"request": {
-						"method": "POST",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "SignIn",
-					"request": {
-						"method": "POST",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "GetAllUser",
+					"name": "get all booking room of user login",
 					"request": {
 						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "GetUserById",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "CreateUser",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ2dW5naGlhazMiLCJpYXQiOjE2ODA5NDQ0NDAsImV4cCI6MTY4MDk2NjA0MH0._v67CSHzefYVQTHnMvbY_We6YUjGH9eNCwAW_8sfEkU",
+								"type": "text"
 							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/booking/userid/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"booking",
+								"userid",
+								"all"
+							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "UpdateUser",
-					"request": {
-						"method": "PATCH",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteUser",
-					"request": {
-						"method": "DELETE",
-						"header": []
 					},
 					"response": []
 				}

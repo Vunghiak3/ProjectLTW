@@ -117,7 +117,6 @@ CREATE TABLE BOOKINGFLIGHTS(
 )
 GO
 
-
 --AUTO UPDATE SEATS
 CREATE TRIGGER seatUpdate ON BOOKINGFLIGHTS AFTER INSERT AS
 BEGIN
@@ -136,6 +135,7 @@ BEGIN
 	JOIN inserted ON SEATS.id = inserted.SeatId
 END;
 GO
+--AUTO RETURN SEAT STATUS
 CREATE TRIGGER seatStatusUpdate ON BOOKINGFLIGHTS AFTER UPDATE AS
 BEGIN
 	UPDATE SEATS
@@ -154,7 +154,7 @@ GO
 -- 	From HOTELS
 -- 	JOIN inserted ON HOTELS.Id = inserted.HotelId
 -- END;
-GO
+--GO
 
 CREATE TRIGGER roomStatus ON BOOKINGROOMS AFTER INSERT AS 
 BEGIN
@@ -175,7 +175,7 @@ GO
 -- 	FROM HOTELS
 -- 	JOIN inserted ON HOTELS.Id = inserted.HotelId
 -- END;
-GO
+--GO
 
 -- CREATE TRIGGER trg_UpdatePrice
 -- ON BOOKINGROOMS
@@ -201,6 +201,9 @@ BEGIN
     WHERE BOOKINGROOMS.Id IN (SELECT Id FROM inserted)
 END;
 
+
+--drop database BookingTicketsAndRooms
+
 /*INSERT INTO ROLES(Name) VALUES ('user'), ('hotelManager'), ('filghtManager'), ('admin')
 USE MASTER
 DROP DATABASE Booking*/
@@ -211,44 +214,67 @@ update SEATS set Status = 'TRUE'
 SELECT * FROM SEATS WHERE Status = 'TRUE' AND Id = 4
 */
 
-drop database BookingTicketsAndRooms
+--use master
 
-use master
+--select * from BOOKINGFLIGHTS where UserId = 1
+--select * from SEATS
+--select * from AIRLINECLASS
 
-select * from BOOKINGFLIGHTS where UserId = 1
-select * from SEATS
-select * from AIRLINECLASS
-
-SELECT bf.*, ac.name, ap.name
-FROM BOOKINGFLIGHTS bf
-JOIN SEATS s ON bf.SeatId = s.id
-JOIN AIRLINECLASS ac ON s.AirlineClassId = ac.id
-JOIN FLIGHTS f ON bf.FlightId = f.id
-JOIN AIRPORTS ap ON f.AirportId = ap.id
-WHERE bf.UserId = 1
+--SELECT bf.*, ac.name, ap.name
+--FROM BOOKINGFLIGHTS bf
+--JOIN SEATS s ON bf.SeatId = s.id
+--JOIN AIRLINECLASS ac ON s.AirlineClassId = ac.id
+--JOIN FLIGHTS f ON bf.FlightId = f.id
+--JOIN AIRPORTS ap ON f.AirportId = ap.id
+--WHERE bf.UserId = 1
 
 
-INSERT INTO SEATS (name,AirlineClassId,Status,FlightId) VALUES ('A-001','2','TRUE','1')
-ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
-delete from FLIGHTS
+--INSERT INTO SEATS (name,AirlineClassId,Status,FlightId) VALUES ('A-001','2','TRUE','1')
+--ALTER TABLE FLIGHTS ALTER COLUMN DateOfDepartment DATE
+--delete from FLIGHTS
 
-Insert into FLIGHTS(Name,FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('Air-001','BMT','HCM','2023-05-23',201,1,'2020-05-22'),
-('Air-002','HCM','HN','2023-05-23',201,1,'2020-05-22')
-INSERT INTO ROLES(Name) VALUES('user'),('hotelmanager'),('flightmanager'),('admin')
-Insert into Airports (name, address,phonenumber) values('VietJet', 'VN', '0000')
+--Insert into FLIGHTS(Name,FromLocation,ToLocation,DateOfDepartment,EmptySeat,AirportId, CreateAt) values('Air-001','BMT','HCM','2023-05-23',201,1,'2020-05-22'),
+--('Air-002','HCM','HN','2023-05-23',201,1,'2020-05-22')
+--INSERT INTO ROLES(Name) VALUES('user'),('hotelmanager'),('flightmanager'),('admin')
+--Insert into Airports (name, address,phonenumber) values('VietJet', 'VN', '0000')
 
-if EXISTS( select * from SEATS WHERE Id = 15 and Status = 'TRUE')
-print('ok')
+--if EXISTS( select * from SEATS WHERE Id = 15 and Status = 'TRUE')
+--print('ok')
 
-SELECT * FROM FLIGHTS
-select Id, name from FLIGHTS
-SELECT * FROM BOOKINGFLIGHTS
+--SELECT * FROM FLIGHTS
+--select Id, name from FLIGHTS
+--SELECT * FROM BOOKINGFLIGHTS
 
-select * From SEATS where AirlineClassId = 2
-DELETE From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
-SELECT * FROM AIRLINECLASS
+--select * From SEATS where AirlineClassId = 2
+--DELETE From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
+--SELECT * FROM AIRLINECLASS
 
---check booking
-Select * From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
---check seat
-select * From SEATS where AirlineClassId = 2
+----check booking
+--Select * From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
+----check seat
+--select * From SEATS where AirlineClassId = 2
+
+--ADD ALL SEAT BY FLIGHT ID
+
+--DECLARE @step INT = 1,
+--@seats INT = (SELECT EmptySeat from Flights where id = 2)
+--WHILE @step <= @seats
+--begin 
+--	if(@step <= 10)
+--		begin
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),2,'TRUE',2)
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),2,'TRUE',2)
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),2,'TRUE',2)
+--		end
+--	else
+--		begin
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),12,'TRUE',2)
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),12,'TRUE',2)
+--			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),12,'TRUE',2)
+--		end
+--set @step = @step +1
+--end
+
+
+--SELECT * FROM SEATS
+--delete FROM SEATS

@@ -205,3 +205,49 @@ exports.checkingSeatsByClass = async (AirlineClassId) => {
     );
   return result.recordsets[0][0];
 };
+
+exports.createAllSeat = async (FlightId, totalSeat, firstId, ecoId) => {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db!");
+  }
+  if (!FlightId) {
+    throw new Error("Invalid input param!");
+  }
+  let request = dbConfig.db.pool.request();
+  let result = await request.input(
+    SeatSchema.schema.FlightId.name,
+    SeatSchema.schema.FlightId.sqlType,
+    FlightId
+  );
+  let fristClass = Math.round(totalSeat * (15 / 100));
+  for (let i = 1; i <= totalSeat; i++) {
+    if (i <= fristClass) {
+      result.query(
+        `INSERT INTO ${SeatSchema.schemaName} ("${SeatSchema.schema.name.name}","${SeatSchema.schema.AirlineClassId.name}","${SeatSchema.schema.Status.name}","${SeatSchema.schema.FlightId.name}") VALUES ('A'+CONVERT(varchar,${i}),${firstId},'TRUE',@${SeatSchema.schema.FlightId.name}), ('B'+CONVERT(varchar,${i}),${firstId},'TRUE',@${SeatSchema.schema.FlightId.name}), ('C'+CONVERT(varchar,${i}),${firstId},'TRUE',@${SeatSchema.schema.FlightId.name})`
+      );
+    } else {
+      result.query(
+        `INSERT INTO ${SeatSchema.schemaName} ("${SeatSchema.schema.name.name}","${SeatSchema.schema.AirlineClassId.name}","${SeatSchema.schema.Status.name}","${SeatSchema.schema.FlightId.name}") VALUES ('A'+CONVERT(varchar,${i}),${ecoId},'TRUE',@${SeatSchema.schema.FlightId.name}), ('B'+CONVERT(varchar,${i}),${ecoId},'TRUE',@${SeatSchema.schema.FlightId.name}), ('C'+CONVERT(varchar,${i}),${ecoId},'TRUE',@${SeatSchema.schema.FlightId.name})`
+      );
+    }
+  }
+  return result.recordsets;
+};
+
+exports.getSeatByFlightId = async function (FlightId) {
+  if (!dbConfig.db.pool) {
+    throw new Error("Not connected to db");
+  }
+  let result = await dbConfig.db.pool
+    .request()
+    .input(
+      SeatSchema.schema.FlightId.name,
+      SeatSchema.schema.FlightId.sqlType,
+      FlightId
+    )
+    .query(
+      `SELECT * FROM ${SeatSchema.schemaName} WHERE ${SeatSchema.schema.FlightId.name} = @${SeatSchema.schema.FlightId.name}`
+    );
+  let seat = result.recordsets;
+  return seat;
+};

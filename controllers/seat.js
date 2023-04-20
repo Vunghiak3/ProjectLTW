@@ -106,3 +106,43 @@ exports.updateSeat = async (req, res) => {
     });
   }
 };
+
+exports.deleteAllByFlightId = async (req, res) => {
+  try {
+    const id = req.params.id * 1;
+    await FlightBookingDAO.deleteByFlightId(id);
+    await SeatDAO.deleteByFlightId(id);
+    return res.status(200).json({
+      code: 200,
+      msg: `Delete all seat with flight ${id} successfully!`,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};
+
+exports.createAllSeat = async (req, res) => {
+  try {
+    const FlightId = req.params.id * 1;
+    const totalSeat = req.body.totalSeatPerLine;
+    const firstId = req.body.firstId;
+    const ecoId = req.body.ecoId;
+    await SeatDAO.createAllSeat(FlightId, totalSeat, firstId, ecoId);
+    const seat = await SeatDAO.getSeatByFlightId(FlightId);
+    return res.status(200).json({
+      code: 200,
+      msg: "Create new seat successfully!",
+      data: { seat },
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      code: 500,
+      msg: e.toString(),
+    });
+  }
+};

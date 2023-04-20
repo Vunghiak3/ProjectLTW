@@ -63,7 +63,6 @@ exports.deleteClass = async (req, res) => {
     } else {
       await ClassDAO.deleteClassById(id);
     }
-
     return res.status(200).json({
       code: 200,
       msg: `Delete class with ${id} successfully!`,

@@ -4,16 +4,14 @@ flightBookingController = require("./../controllers/flightBooking");
 const StaticData = require("../utils/StaticData");
 const authController = require("./../controllers/auth");
 
-router
-  .route("/")
-  .get(
-    authController.protect,
-    authController.restricTo(
-      StaticData.AUTH.Role.admin,
-      StaticData.AUTH.Role.flightManager
-    ),
-    flightBookingController.getAllBooking
-  );
+router.route("/").get(
+  // authController.protect,
+  // authController.restricTo(
+  //   StaticData.AUTH.Role.admin,
+  //   StaticData.AUTH.Role.flightManager
+  // ),
+  flightBookingController.getAllBooking
+);
 
 router
   .route("/:id")
