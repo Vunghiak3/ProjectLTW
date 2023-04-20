@@ -10,11 +10,7 @@ CREATE TABLE ROLES(
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	Name NVARCHAR(50) NOT NULL,
 )
-
-GO
-
-INSERT INTO ROLES(Name) VALUES
-('user'), ('hotelManager'), ('flightManager'), ('admin')
+-- ('user'), ('hotelManager'), ('flightManager'), ('admin')
 
 GO
 
@@ -34,10 +30,10 @@ CREATE TABLE USERS(
 GO
 
 INSERT INTO USERS(Username, Password, Name, Email, PhoneNumber, Birthday, RoleId) VALUES
-('Admin', '123456', 'Nguyen Van A', 'Admin01@gmail.com', '0983923839', '4/23/1995', 1),
+('Admin', '123456', 'Nguyen Van A', 'Admin01@gmail.com', '0983923839', '4/23/1995', 4),
 ('HotelManager', '123456', 'Nguyen Van B', 'HotelManager01@gmail.com', '0937463854', '9/12/1994', 2),
 ('FlightManager', '123456', 'Nguyen Van C', 'FlightManager01@gmail.com', '09384756122', '1/1/1996', 3),
-('User', '123456', 'Nguyen Van D', 'User01@gmail.com', '0974564123', '2/3/2000', 4)
+('User', '123456', 'Nguyen Van D', 'User01@gmail.com', '0974564123', '2/3/2000', 1)
 
 GO
 
@@ -282,6 +278,38 @@ BEGIN
 END;
 GO
 
+--ADD ALL SEAT BY FLIGHT ID
+
+DECLARE @step INT = 1,
+@seats INT = (SELECT EmptySeat from Flights where id = 2)
+WHILE @step <= @seats
+begin 
+	if(@step <= 10)
+		begin
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),2,'TRUE',2)
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),2,'TRUE',2)
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),2,'TRUE',2)
+		end
+	else
+		begin
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),12,'TRUE',2)
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),12,'TRUE',2)
+			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),12,'TRUE',2)
+		end
+set @step = @step +1
+end;
+
+CREATE TRIGGER trg_UpdateCheckOutDate
+ON BOOKINGROOMS
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    UPDATE BOOKINGROOMS
+    SET CheckOutDate = DATEADD(day, NumberDay, CheckInDate)
+    FROM BOOKINGROOMS
+    WHERE BOOKINGROOMS.Id IN (SELECT Id FROM inserted)
+END;
+
 --AUTO UPDATE ROOM 
 -- CREATE TRIGGER roomUpdate ON BOOKINGROOMS AFTER INSERT AS 
 -- BEGIN
@@ -326,16 +354,7 @@ GO
 -- END;
 -- GO
 
---CREATE TRIGGER trg_UpdateCheckOutDate
---ON BOOKINGROOMS
---AFTER INSERT, UPDATE
---AS
---BEGIN
---    UPDATE BOOKINGROOMS
---    SET CheckOutDate = DATEADD(day, NumberDay, CheckInDate)
---    FROM BOOKINGROOMS
---    WHERE BOOKINGROOMS.Id IN (SELECT Id FROM inserted)
---END;
+
 
 
 --drop database BookingTicketsAndRooms
@@ -389,28 +408,3 @@ SELECT * FROM SEATS WHERE Status = 'TRUE' AND Id = 4
 --Select * From BOOKINGFLIGHTS Where SeatId in (Select id from SEATS where AirlineClassId = 2)
 ----check seat
 --select * From SEATS where AirlineClassId = 2
-
---ADD ALL SEAT BY FLIGHT ID
-
-DECLARE @step INT = 1,
-@seats INT = (SELECT EmptySeat from Flights where id = 2)
-WHILE @step <= @seats
-begin 
-	if(@step <= 10)
-		begin
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),2,'TRUE',2)
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),2,'TRUE',2)
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),2,'TRUE',2)
-		end
-	else
-		begin
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('A'+CONVERT(varchar,@step),12,'TRUE',2)
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('B'+CONVERT(varchar,@step),12,'TRUE',2)
-			Insert into SEATS (Name, AirlineClassId, Status,FlightId) values ('C'+CONVERT(varchar,@step),12,'TRUE',2)
-		end
-set @step = @step +1
-end
-
-
---SELECT * FROM SEATS
---delete FROM SEATS
