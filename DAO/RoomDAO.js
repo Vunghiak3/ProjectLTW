@@ -128,7 +128,8 @@ exports.createNewRoom = async (room) => {
     );
   query += " (" + insertFieldNamesStr + ") VALUES (" + insertValuesStr + ")";
   let result = await request.query(query);
-  await HotelDAO.updateEmtyRoomHotel("insert");
+  let roomid = await this.getRoomByCreateAt(room.createAt)
+  await HotelDAO.updateEmtyRoomHotel("insert", roomid.HotelId);
   return result.recordsets;
 };
 
@@ -146,16 +147,18 @@ exports.getRoomByName = async (name) => {
 };
 
 exports.deleteRoomById = async (id) => {
+  console.log("🚀 ~ file: RoomDAO.js:150 ~ exports.deleteRoomById ~ id:", id)
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
   const request = dbConfig.db.pool.request();
+  let hotel = await HotelDAO.getHotelByIdRoom(id)
   let result = await request
     .input(RoomSchema.schema.id.name, RoomSchema.schema.id.sqlType, id)
     .query(
       `DELETE ${RoomSchema.schemaName} WHERE ${RoomSchema.schema.id.name} = @${RoomSchema.schema.id.name}`
     );
-  await HotelDAO.updateEmtyRoomHotel("delete");
+  await HotelDAO.updateEmtyRoomHotel("delete", hotel.Id);
   return result.recordsets;
 };
 

@@ -165,17 +165,21 @@ exports.getHotelByCreateAt = async (date) => {
   return result.recordsets[0][0];
 };
 
-exports.updateEmtyRoomHotel = async (val) => {
+exports.updateEmtyRoomHotel = async (val, id) => {
+  console.log("🚀 ~ file: HotelDAO.js:169 ~ exports.updateEmtyRoomHotel= ~ id:", id)
   if (!dbConfig.db.pool) {
     throw new Error("Not connected to db!");
   }
   let request = dbConfig.db.pool.request();
+  request.input(HotelSchema.schema.id.name, HotelSchema.schema.id.sqlType, id)
   let query = `UPDATE ${HotelSchema.schemaName} SET ${HotelSchema.schema.emtyrooms.name} = ${HotelSchema.schema.emtyrooms.name}`;
   if (val === "insert") {
     query += " + 1";
   } else if (val === "delete") {
     query += " - 1";
   }
+  query += ` WHERE ${HotelSchema.schema.id.name} = @${HotelSchema.schema.id.name}`
+  console.log("🚀 ~ file: HotelDAO.js:182 ~ exports.updateEmtyRoomHotel= ~ query:", query)
   await request.query(query);
 };
 
