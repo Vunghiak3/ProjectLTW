@@ -30,12 +30,10 @@ exports.getAllUsers = async function (filter) {
     query += " " + filterStr;
     countQuery += " " + filterStr;
   }
-  console.log("🚀 ~ file: UserDAO.js:32 ~ countQuery:", countQuery);
 
   if (paginationStr) {
     query += " " + paginationStr;
   }
-  console.log("🚀 ~ file: UserDAO.js:36 ~ query:", query);
 
   let result = await dbConfig.db.pool.request().query(query);
   let countResult = await dbConfig.db.pool.request().query(countQuery);
