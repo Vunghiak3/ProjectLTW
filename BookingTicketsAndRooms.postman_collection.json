@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7867252e-72b3-49ae-a878-a776bdd2599c",
+		"_postman_id": "7fe4688b-53e4-406d-934d-28f5a94b5825",
 		"name": "BookingTicketsAndRooms",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25986516"
+		"_exporter_id": "26010500"
 	},
 	"item": [
 		{
@@ -1052,13 +1052,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJEREREIiwiaWF0IjoxNjgxOTgxOTk1LCJleHAiOjE2ODIwMDM1OTV9.kfJheYXh_CnjSehttXZmRxo2OP54SSjKyK_zR-Wr0is",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJGbGlnaHRNYW5hZ2VyIiwiaWF0IjoxNjgyMTU1NjM5LCJleHAiOjE2ODIxNzcyMzl9.ZGwW6dD5-PUkUiUtQV8M7vNtS3c63SPd10LW1nrbBL8",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n \"FlightId\":2,\r\n \"SeatId\":41140\r\n}",
+							"raw": "{\r\n \"FlightId\":2,\r\n \"SeatId\":2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
